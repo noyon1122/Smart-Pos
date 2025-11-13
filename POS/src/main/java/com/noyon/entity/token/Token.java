@@ -18,7 +18,7 @@ public class Token {
 	private Long id;
     private String accessToken;
     private String refreshToken;
-    private boolean isLogout;
+    private boolean logout;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -27,12 +27,12 @@ public class Token {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Token(Long id, String accessToken, String refreshToken, boolean isLogout, User user) {
+	public Token(Long id, String accessToken, String refreshToken, boolean logout, User user) {
 		super();
 		this.id = id;
 		this.accessToken = accessToken;
 		this.refreshToken = refreshToken;
-		this.isLogout = isLogout;
+		this.logout = logout;
 		this.user = user;
 	}
 
@@ -62,11 +62,11 @@ public class Token {
 	}
 
 	public boolean isLogout() {
-		return isLogout;
+		return logout;
 	}
 
-	public void setLogout(boolean isLogout) {
-		this.isLogout = isLogout;
+	public void setLogout(boolean logout) {
+		this.logout = logout;
 	}
 	
 	
