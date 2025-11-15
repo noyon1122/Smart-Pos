@@ -1,12 +1,13 @@
 package com.noyon.jwt;
 
 import java.util.Date;
+import java.util.List;
 import java.util.function.Function;
 
 import javax.crypto.SecretKey;
 
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.webauthn.api.Bytes;
+
 import org.springframework.stereotype.Service;
 
 import com.noyon.entity.acc.User;
@@ -38,8 +39,13 @@ public class JwtService {
 	 //Generate Token
 	 
 	 private String generateToken(User user,long expiredTime) {
+		 List<String> roles = user.getUserRoles()
+			        .stream()
+			        .map(ur -> ur.getRole().getAuthority())  // e.g., "ADMIN"
+			        .toList();
 		 return Jwts
 				 .builder()
+				 .claim("roles", roles)
 				 .subject(user.getUsername())
 				 .issuedAt(new Date(System.currentTimeMillis()))
 				 .expiration(new Date(System.currentTimeMillis()+expiredTime))
@@ -84,6 +90,11 @@ public class JwtService {
 	 public String extractUsername(String token) {
 			return extractClaim(token, Claims::getSubject);
 	}
+	 
+    // Extract roles from token
+    public List<String> extractRoles(String token) {
+        return extractClaim(token, claims -> claims.get("roles", List.class));
+    }
 		 
 	 
 	 public Date extractExpiration(String token) {

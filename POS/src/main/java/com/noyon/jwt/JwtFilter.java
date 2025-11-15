@@ -1,9 +1,12 @@
 package com.noyon.jwt;
 
 import java.io.IOException;
-
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -51,7 +54,13 @@ public class JwtFilter extends  OncePerRequestFilter {
 			UserDetails userDetails= customUserDetailsService.loadUserByUsername(username);
 			
 			if(jwtService.isValidToken(token, userDetails)) {
-				UsernamePasswordAuthenticationToken authenticationToken= new UsernamePasswordAuthenticationToken(userDetails,null, userDetails.getAuthorities());
+				List<String> roles = jwtService.extractRoles(token);
+
+                List<GrantedAuthority> authorities = roles.stream()
+                        .map(role -> new SimpleGrantedAuthority("ROLE_" + role)) // Spring requires "ROLE_" prefix
+                        .collect(Collectors.toList());
+                
+				UsernamePasswordAuthenticationToken authenticationToken= new UsernamePasswordAuthenticationToken(userDetails,null, authorities);
 				authenticationToken.setDetails(
 						new WebAuthenticationDetailsSource().buildDetails(request)
 						);

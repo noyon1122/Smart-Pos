@@ -2,6 +2,8 @@ package com.noyon.entity.acc;
 
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -17,10 +19,12 @@ public class UserRole {
 	private Long id;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 	
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="role_id")
+    @JsonIgnore
 	private Role role;
 	
     // ✅ Add equals() and hashCode() here:

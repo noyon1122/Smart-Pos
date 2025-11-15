@@ -1,6 +1,7 @@
 package com.noyon.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,7 +12,7 @@ import com.noyon.entity.acc.User;
 import com.noyon.service.IAuthService;
 
 @RestController
-@RequestMapping("api/auth/")
+@RequestMapping("/api/auth/")
 public class AuthController {
 
 	private final IAuthService authService;
@@ -31,6 +32,8 @@ public class AuthController {
 		AuthenticationResponse response=authService.login(user);
 		return ResponseEntity.ok(response);
 	}
+	
+	
 	
 	
 }

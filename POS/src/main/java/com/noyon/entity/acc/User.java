@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+
 import com.noyon.entity.csd.Organization;
 import com.noyon.entity.pos.HrDevelopment;
 import com.noyon.entity.pos.HrSaleZone;
@@ -68,6 +69,7 @@ public class User implements UserDetails {
 
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+
     private Set<UserRole> userRoles = new HashSet<>();
 	
 	private Boolean enabled = true;
@@ -94,7 +96,7 @@ public class User implements UserDetails {
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return username;
+		return email;
 	}
 	@Override
 	public boolean isAccountNonExpired() {

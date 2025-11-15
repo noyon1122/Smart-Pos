@@ -8,5 +8,6 @@ import com.noyon.entity.acc.Role;
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {
 
+	boolean existsByAuthority(String authority);
 	
 }
