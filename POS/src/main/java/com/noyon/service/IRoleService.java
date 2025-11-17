@@ -1,6 +1,6 @@
 package com.noyon.service;
 
-import com.noyon.entity.acc.Role;
+import com.noyon.entity.acl.Role;
 
 public interface IRoleService {
 

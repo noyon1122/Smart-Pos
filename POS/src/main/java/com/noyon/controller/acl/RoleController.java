@@ -1,4 +1,4 @@
-package com.noyon.controller.acc;
+package com.noyon.controller.acl;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.noyon.entity.acc.Role;
+import com.noyon.entity.acl.Role;
 import com.noyon.service.IRoleService;
 
 @RestController

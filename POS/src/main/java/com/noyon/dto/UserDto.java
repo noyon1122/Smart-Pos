@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.noyon.entity.acc.UserRole;
+import com.noyon.entity.acl.UserRole;
 import com.noyon.entity.csd.Organization;
 import com.noyon.entity.pos.HrDevelopment;
 import com.noyon.entity.pos.HrSaleZone;

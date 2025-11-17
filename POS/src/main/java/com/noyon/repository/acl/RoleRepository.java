@@ -1,9 +1,9 @@
-package com.noyon.repository.acc;
+package com.noyon.repository.acl;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.noyon.entity.acc.Role;
+import com.noyon.entity.acl.Role;
 
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {

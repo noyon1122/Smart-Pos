@@ -1,4 +1,4 @@
-package com.noyon.entity.acc;
+package com.noyon.entity.acl;
 
 import java.util.Objects;
 

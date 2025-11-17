@@ -1,18 +1,47 @@
-import React from 'react'
+import React, { useState } from 'react'
 import walton from '../../assets/images/waltonforum.png'
+import useAuth from '../../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
+import { loginApi } from '../../services/api';
 const Login = () => {
+
+  const {login}=useAuth();
+  const navigate=useNavigate();
+  const [form,setForm]=useState(
+    {
+      username:"",
+      password:"",
+    }
+  )
+
+    const handleChange = (e) => {
+    const { name, value } = e.target;
+     const updatedForm = { ...form, [name]: value };
+    setForm(updatedForm);
+  };
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+   const  {token,user}= await loginApi(form); // now returns decoded token
+    login(token,user);
+     navigate("/")
+    alert("Login successful!");
+  } catch (err) {
+    alert("Login failed");
+  }
+};
+
   return (
-    <div className="flex flex-col items-center justify-center 
-                    
-                   bg-gradient-to-b from-blue-100 via-white to-white pt-20">
+    <div className="flex flex-col items-center justify-center bg-gradient-to-b from-blue-100 via-white to-white pt-20">
 
       {/* Title */}
       <h1 className="text-4xl font-bold text-blue-900 mb-5 tracking-wide drop-shadow">
         Point of Sales
       </h1>
-
+      
       {/* Login Box */}
-      <div className="bg-gray-200 p-6 rounded shadow-lg w-[420px]">
+      <form onSubmit={handleSubmit}>
+      <div className="bg-gray-200 p-6 rounded shadow-lg w-[400px] h-[340px]">
         <div className="bg-white p-6 shadow-inner border rounded">
           
           <div >
@@ -24,6 +53,8 @@ const Login = () => {
           </label>
           <input
             type="text"
+            name="username"
+            value={form.username} onChange={handleChange}
             placeholder="Enter your username"
             className="w-full border px-2 py-2 rounded mb-2 text-sm focus:outline-none "
           />
@@ -34,6 +65,8 @@ const Login = () => {
           </label>
           <input
             type="password"
+            name="password"
+            value={form.password} onChange={handleChange}
             placeholder="Enter your password"
             className="w-full border px-2 py-2 text-sm rounded mb-1 focus:outline-none "
           />
@@ -57,6 +90,7 @@ const Login = () => {
 
         </div>
       </div>
+      </form>
     </div>
   )
 }

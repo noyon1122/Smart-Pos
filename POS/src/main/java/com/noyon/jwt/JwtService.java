@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import org.springframework.stereotype.Service;
 
-import com.noyon.entity.acc.User;
+import com.noyon.entity.acl.User;
 import com.noyon.repository.token.TokenRepository;
 
 import io.jsonwebtoken.Claims;

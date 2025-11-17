@@ -7,8 +7,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.noyon.entity.acc.User;
-import com.noyon.repository.acc.UserRepository;
+import com.noyon.entity.acl.User;
+import com.noyon.repository.acl.UserRepository;
 
 
 @Service
@@ -28,7 +28,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		// TODO Auto-generated method stub
-		Optional<User> userOpt=userRepository.findByEmail(username);
+		Optional<User> userOpt=userRepository.findByUsername(username);
 		return userOpt.orElseThrow(()-> new UsernameNotFoundException("User not found!!!"));
 	}
 

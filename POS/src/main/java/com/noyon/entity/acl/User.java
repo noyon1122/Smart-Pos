@@ -1,4 +1,4 @@
-package com.noyon.entity.acc;
+package com.noyon.entity.acl;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -96,7 +96,7 @@ public class User implements UserDetails {
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return email;
+		return username;
 	}
 	@Override
 	public boolean isAccountNonExpired() {

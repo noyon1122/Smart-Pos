@@ -33,6 +33,8 @@ export const AuthProvider =({children})=>{
         setUser(null);
     }
 
+    console.log("user ",user)
+
     const authInfo={
         user,setUser,login,logout
     }

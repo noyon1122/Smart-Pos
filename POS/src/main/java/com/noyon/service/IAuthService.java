@@ -1,7 +1,7 @@
 package com.noyon.service;
 
 import com.noyon.dto.AuthenticationResponse;
-import com.noyon.entity.acc.User;
+import com.noyon.entity.acl.User;
 
 public interface IAuthService {
 

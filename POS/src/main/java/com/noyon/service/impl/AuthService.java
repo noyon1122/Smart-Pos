@@ -10,12 +10,11 @@ import org.springframework.stereotype.Service;
 
 import com.noyon.dto.AuthenticationResponse;
 import com.noyon.dto.UserDto;
-
-import com.noyon.entity.acc.User;
+import com.noyon.entity.acl.User;
 import com.noyon.entity.token.Token;
 import com.noyon.exception.CustomException;
 import com.noyon.jwt.JwtService;
-import com.noyon.repository.acc.UserRepository;
+import com.noyon.repository.acl.UserRepository;
 import com.noyon.repository.token.TokenRepository;
 import com.noyon.service.IAuthService;
 import com.noyon.utils.Utils;
@@ -88,8 +87,8 @@ public class AuthService implements IAuthService {
 		AuthenticationResponse response=new AuthenticationResponse();
 		try {
 			
-			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
-			User saveUser=userRepository.findByEmail(user.getEmail()).orElseThrow(()-> new CustomException("Opps Sorry!! User not found"));
+			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+			User saveUser=userRepository.findByUsername(user.getUsername()).orElseThrow(()-> new CustomException("Opps Sorry!! User not found"));
 			String accessToken=jwtService.generateAccessToken(saveUser);
 			String refreshToken=jwtService.generateRefreshToken(saveUser);
 			UserDto userDto=Utils.mapUserEntityToUserDto(saveUser);

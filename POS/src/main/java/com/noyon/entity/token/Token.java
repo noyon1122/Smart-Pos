@@ -1,6 +1,6 @@
 package com.noyon.entity.token;
 
-import com.noyon.entity.acc.User;
+import com.noyon.entity.acl.User;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

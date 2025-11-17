@@ -1,7 +1,7 @@
 package com.noyon.utils;
 
 import com.noyon.dto.UserDto;
-import com.noyon.entity.acc.User;
+import com.noyon.entity.acl.User;
 
 public class Utils {
 

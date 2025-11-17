@@ -49,6 +49,7 @@ public class SecurityConfig {
 				.authorizeHttpRequests(req -> req
 						.requestMatchers("/api/auth/**").permitAll()
 						.requestMatchers("/api/admin/**").hasRole("ADMIN")
+						.anyRequest().authenticated()
 						)
 				.userDetailsService(customUserDetailsService)
 				.sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

@@ -6,7 +6,7 @@ const api=axios.create({
 
 api.interceptors.request.use((config)=>{
     const token=localStorage.getItem("token");
-    console.loglog("JWT token: ",token);
+    console.log("JWT token: ",token);
     if(token){
         config.headers.Authorization=`Bearer ${token}`;
     }
@@ -21,13 +21,13 @@ export const register=async(userData) => {
 
 export const loginApi = async (loginData) => {
   const response = await api.post('/auth/login', loginData);
-
+   console.log("Login response:", response.data);
   const token = response.data.accessToken;
   if (!token || token.split('.').length !== 3) {
     throw new Error("Invalid token format from backend.");
   }
 
-  return { token: token, user: response.data.user };
+  return { token: token, user: response.data.userDto };
 };
 
 export const logout=async()=>{

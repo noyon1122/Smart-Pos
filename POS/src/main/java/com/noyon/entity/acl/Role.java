@@ -1,4 +1,4 @@
-package com.noyon.entity.acc;
+package com.noyon.entity.acl;
 
 import java.time.LocalDateTime;
 import java.util.Set;
