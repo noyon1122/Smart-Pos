@@ -1,5 +1,7 @@
 package com.noyon.service.impl;
 import java.time.LocalDateTime;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -41,6 +43,17 @@ public class MenuService implements IMenuService {
 		}
 		return savedMenu;
 	}
+	@Override
+	public List<Menu> getMainMenu() {
+		// TODO Auto-generated method stub
+		return menuRepository.findByParentMenuIsNullOrderBySortOrderAsc();
+	}
+	@Override
+	public List<Menu> getChildMenu(Long parentId) {
+		// TODO Auto-generated method stub
+		return menuRepository.findByParentMenuIdOrderBySortOrderAsc(parentId);
+	}
+
 	
 	
 	

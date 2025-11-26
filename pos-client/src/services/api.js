@@ -34,4 +34,9 @@ export const logout=async()=>{
   localStorage.removeItem('token');
   localStorage.removeItem('user')
 }
+
+export const menusApi=async()=>{
+  const response=await api.get('/menus')
+  return response.data;
+}
  

@@ -4,6 +4,8 @@ import Home from "../components/home/Home";
 import Login from "../pages/auth/Login";
 import Registration from "../pages/auth/Registration";
 
+import CreateMenu from "../pages/menus/CreateMenu";
+
 
 const router=createBrowserRouter([
 
@@ -15,6 +17,10 @@ const router=createBrowserRouter([
                 path:'/',
                 element:<Home></Home>
             },
+            {
+                path: "/menu/create",
+                element: <CreateMenu />,
+            }
            
         ]
     },

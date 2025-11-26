@@ -1,8 +1,12 @@
 package com.noyon.service;
 
+import java.util.List;
+
 import com.noyon.entity.acl.Menu;
 
 public interface IMenuService {
 
 	public Menu create(Menu menu);
+	public List<Menu> getMainMenu();
+	public List<Menu> getChildMenu(Long parentId);
 }

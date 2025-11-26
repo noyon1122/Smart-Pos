@@ -1,13 +1,23 @@
 package com.noyon.entity.acl;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -15,31 +25,43 @@ import jakarta.persistence.Table;
 public class Menu {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	private String title;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String title;
     private String description;
     private String urlPath;
     private String menuClass;
-    private String menuType;
+    private String menuType = "MAIN_MENU";
+
     @ManyToOne
     @JoinColumn(name = "parent_menu_id")
+    @JsonBackReference
     private Menu parentMenu;
+
+    @OneToMany(mappedBy = "parentMenu", fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<Menu> children;
+
     private Boolean isExternal;
     private Boolean isOpenNewTab;
     private Boolean isActive;
     private Integer sortOrder;
+
     private LocalDateTime created;
     private String createdBy;
     private LocalDateTime modified;
     private String modifiedBy;
+
+  
 	public Menu() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
 	public Menu(Long id, String title, String description, String urlPath, String menuClass, String menuType,
-			Menu parentMenu, Boolean isExternal, Boolean isOpenNewTab, Boolean isActive, Integer sortOrder,
-			LocalDateTime created, String createdBy, LocalDateTime modified, String modifiedBy) {
+			Menu parentMenu, List<Menu> children, Boolean isExternal, Boolean isOpenNewTab, Boolean isActive,
+			Integer sortOrder, LocalDateTime created, String createdBy, LocalDateTime modified, String modifiedBy) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -48,6 +70,7 @@ public class Menu {
 		this.menuClass = menuClass;
 		this.menuType = menuType;
 		this.parentMenu = parentMenu;
+		this.children = children;
 		this.isExternal = isExternal;
 		this.isOpenNewTab = isOpenNewTab;
 		this.isActive = isActive;
@@ -57,6 +80,9 @@ public class Menu {
 		this.modified = modified;
 		this.modifiedBy = modifiedBy;
 	}
+	
+	
+
 	public Long getId() {
 		return id;
 	}
@@ -99,6 +125,15 @@ public class Menu {
 	public void setParentMenu(Menu parentMenu) {
 		this.parentMenu = parentMenu;
 	}
+	
+	public List<Menu> getChildren() {
+		return children;
+	}
+
+	public void setChildren(List<Menu> children) {
+		this.children = children;
+	}
+
 	public Boolean getIsExternal() {
 		return isExternal;
 	}
