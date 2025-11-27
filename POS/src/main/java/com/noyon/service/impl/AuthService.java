@@ -2,6 +2,8 @@ package com.noyon.service.impl;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,16 +29,18 @@ public class AuthService implements IAuthService {
 	private final TokenRepository tokenRepository;
 	private final AuthenticationManager authenticationManager;
 	private final PasswordEncoder passwordEncoder;
+	private final RequestMapService requestMapService;
 	
 
 	public AuthService(JwtService jwtService, UserRepository userRepository, TokenRepository tokenRepository,
-			AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder) {
+			AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder,RequestMapService requestMapService) {
 		super();
 		this.jwtService = jwtService;
 		this.userRepository = userRepository;
 		this.tokenRepository = tokenRepository;
 		this.authenticationManager = authenticationManager;
 		this.passwordEncoder = passwordEncoder;
+		this.requestMapService=requestMapService;
 	}
 
 	@Override
@@ -56,7 +60,7 @@ public class AuthService implements IAuthService {
 			user.setAccountLocked(false);
 			user.setPasswordExpired(false);
 			User savedUser=userRepository.save(user);
-			UserDto userDto =Utils.mapUserEntityToUserDto(savedUser);
+			UserDto userDto =Utils.mapUserEntityToUserDto(savedUser,null);
 			String accessToken=jwtService.generateAccessToken(savedUser);
 			String refreshToken=jwtService.generateRefreshToken(savedUser);
 			savedUserToken(accessToken,refreshToken,savedUser);
@@ -91,7 +95,19 @@ public class AuthService implements IAuthService {
 			User saveUser=userRepository.findByUsername(user.getUsername()).orElseThrow(()-> new CustomException("Opps Sorry!! User not found"));
 			String accessToken=jwtService.generateAccessToken(saveUser);
 			String refreshToken=jwtService.generateRefreshToken(saveUser);
-			UserDto userDto=Utils.mapUserEntityToUserDto(saveUser);
+			
+			Set<String> roleNames = saveUser.getUserRoles()
+	                .stream()
+	                .map(ur -> ur.getRole().getAuthority())
+	                .collect(Collectors.toSet());
+
+	        // get allowed URLs by roles
+	        List<String> allowedUrls = requestMapService.getUrlsByRoles(roleNames);
+
+	        System.out.println("allowedUrls : " + allowedUrls);
+
+			UserDto userDto = Utils.mapUserEntityToUserDto(saveUser, allowedUrls);
+			
 			invalidUserToken(saveUser);
 			savedUserToken(accessToken, refreshToken, saveUser);
 			response.setStatusCode(200);

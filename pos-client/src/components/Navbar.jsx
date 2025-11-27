@@ -28,25 +28,25 @@ export const Navbar = () => {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <div>
+    <div className='bg-gradient-to-b from-blue-100 via-white to-white' >
 
         {/* Header */}
-      <div className="mx-28 p-3 flex justify-between items-center">
+      <div className="mx-28 p-3 flex justify-between items-center ">
         <div className="flex items-center gap-4 ">
           <img src={walton} alt="Walton Logo" className="h-18 " />
           <h1 className="text-xl font-bold"></h1>
         </div>
         <div className="text-right">
-          <p className="font-bold">Welcome!</p>
-          <p className="text-sm font-medium">{user?.fullName || "Guest"}</p>
+          <p className="font-bold text-sm">Welcome!</p>
+          <p className="text-xs font-medium">{user?.fullName || "Guest"}</p>
           <p className='text-green-600 font-medium text-lg'> POS-এর যেকোনো সাপোর্টের জন্য 01678-028193 নম্বরে কল করুন।</p>
           <div className="text-blue-600 text-sm">
-            <span className="cursor-pointer mr-2">Change Password</span>|
+            <span className="cursor-pointer text-xs font-bold mr-2">Change Password</span>|
              <button
             onClick={handleLogout}
             
           >
-            <span className="cursor-pointer ml-2">Logout</span>
+            <span className="cursor-pointer ml-2 text-xs font-bold">Logout</span>
           </button>
            
           </div>

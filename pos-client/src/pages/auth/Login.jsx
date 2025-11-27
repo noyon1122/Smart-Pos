@@ -32,7 +32,9 @@ const Login = () => {
 };
 
   return (
-    <div className="flex flex-col items-center justify-center bg-gradient-to-b from-blue-100 via-white to-white pt-20">
+    <div className="flex flex-col items-center justify-center bg-gradient-to-b  pt-20">
+
+  
 
       {/* Title */}
       <h1 className="text-4xl font-bold text-blue-900 mb-5 tracking-wide drop-shadow">

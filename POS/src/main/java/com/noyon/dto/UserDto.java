@@ -2,15 +2,13 @@ package com.noyon.dto;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
-
-import com.noyon.entity.acl.UserRole;
 import com.noyon.entity.csd.Organization;
 import com.noyon.entity.pos.HrDevelopment;
 import com.noyon.entity.pos.HrSaleZone;
 import com.noyon.entity.pos.HrZone;
 import com.noyon.entity.pos.Plazas;
-
 
 public class UserDto {
 
@@ -24,7 +22,8 @@ public class UserDto {
 	private HrSaleZone salesZone;
 	private HrDevelopment psd;
 	private HrZone zone;
-	private Set<UserRole> userRoles= new HashSet<>();
+	private Set<String> roles = new HashSet<>();
+	private List<String> allowedUrls;
 	private Boolean enabled;
 	private Boolean accountExpired;
 	private Boolean accountLocked;
@@ -38,10 +37,12 @@ public class UserDto {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
 	public UserDto(Long id, String fullName, String email, String mobile, String username, Plazas plazas,
-			Organization csdOrg, HrSaleZone salesZone, HrDevelopment psd, HrZone zone, Set<UserRole> userRoles,
-			Boolean enabled, Boolean accountExpired, Boolean accountLocked, Boolean passwordExpired,
-			LocalDateTime created, String createdBy, LocalDateTime modified, String modifiedBy) {
+			Organization csdOrg, HrSaleZone salesZone, HrDevelopment psd, HrZone zone, Set<String> roles,
+			List<String> allowedUrls, Boolean enabled, Boolean accountExpired, Boolean accountLocked,
+			Boolean passwordExpired, LocalDateTime created, String createdBy, LocalDateTime modified,
+			String modifiedBy) {
 		super();
 		this.id = id;
 		this.fullName = fullName;
@@ -53,7 +54,8 @@ public class UserDto {
 		this.salesZone = salesZone;
 		this.psd = psd;
 		this.zone = zone;
-		this.userRoles = userRoles;
+		this.roles = roles;
+		this.allowedUrls = allowedUrls;
 		this.enabled = enabled;
 		this.accountExpired = accountExpired;
 		this.accountLocked = accountLocked;
@@ -63,6 +65,7 @@ public class UserDto {
 		this.modified = modified;
 		this.modifiedBy = modifiedBy;
 	}
+
 	public Long getId() {
 		return id;
 	}
@@ -123,11 +126,11 @@ public class UserDto {
 	public void setZone(HrZone zone) {
 		this.zone = zone;
 	}
-	public Set<UserRole> getUserRoles() {
-		return userRoles;
+	public Set<String> getRoles() {
+		return roles;
 	}
-	public void setUserRoles(Set<UserRole> userRoles) {
-		this.userRoles = userRoles;
+	public void setRoles(Set<String> roles) {
+		this.roles = roles;
 	}
 	public Boolean getEnabled() {
 		return enabled;
@@ -178,7 +181,13 @@ public class UserDto {
 		this.modifiedBy = modifiedBy;
 	}
 
-	
+	public List<String> getAllowedUrls() {
+		return allowedUrls;
+	}
+
+	public void setAllowedUrls(List<String> allowedUrls) {
+		this.allowedUrls = allowedUrls;
+	}
 	
 	
 }

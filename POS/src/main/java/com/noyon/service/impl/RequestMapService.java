@@ -1,6 +1,10 @@
 package com.noyon.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,6 +57,19 @@ public class RequestMapService implements IRequestMapService{
 		}
 		return savedRequestMap;
 	}
+	
+	public List<String> getUrlsByRoles(Set<String> roles) {
+
+        List<RequestMap> all = requestMapRepository.findAll();
+
+        return all.stream()
+                .filter(rm -> {
+                    List<String> rmRoles = Arrays.asList(rm.getConfigAttribute().split(","));
+                    return rmRoles.stream().anyMatch(roles::contains);
+                })
+                .map(RequestMap::getUrl)
+                .collect(Collectors.toList());
+    }
 	
 	
 }

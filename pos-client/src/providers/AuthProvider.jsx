@@ -24,6 +24,8 @@ export const AuthProvider =({children})=>{
     const login=(token,user)=>{
         localStorage.setItem('token',token);
         localStorage.setItem('user',JSON.stringify(user));
+        localStorage.setItem("roles", JSON.stringify(user.roles));
+        localStorage.setItem("allowedUrls", JSON.stringify(user.allowedUrls || []));
         setUser(user);
     };
 
