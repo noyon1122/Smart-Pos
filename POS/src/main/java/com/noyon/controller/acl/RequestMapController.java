@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.noyon.entity.acl.RequestMap;
 import com.noyon.service.IRequestMapService;
 @RestController
-@RequestMapping("/api/admin/")
+@RequestMapping("/api/")
 public class RequestMapController {
 
 	private final IRequestMapService requestMapService;

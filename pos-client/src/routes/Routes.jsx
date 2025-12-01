@@ -9,6 +9,7 @@ import PrivateRoutes from "./PrivateRoutes";
 import Unauthorized from "../pages/Unauthorized";
 
 import ListMenu from "../pages/menus/ListMenu";
+import CreateUser from "../pages/users/CreateUser";
 
 
 const router=createBrowserRouter([
@@ -22,7 +23,9 @@ const router=createBrowserRouter([
                 element:<PrivateRoutes />,
                 children:[
                     { path: "menu/create", element:<CreateMenu /> },
-                    { path: "menu/list", element: <ListMenu />}
+                    { path: "menu/list", element: <ListMenu />},
+                    { path: "user/create", element: <CreateUser />},
+                    { path: "user/list", element: <ListMenu />}
                 ] 
            }
            

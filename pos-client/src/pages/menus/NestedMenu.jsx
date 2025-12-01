@@ -7,16 +7,16 @@ const NestedMenu = ({ menu, isChild = false }) => {
 
   return (
     <div
-      className="relative"
+      className="relative "
       onMouseEnter={() => setOpen(true)}
       onMouseLeave={() => setOpen(false)}
     >
       {/* MAIN ITEM */}
       {hasChildren ? (
         // Parent menu (dropdown)
-        <button className="w-full text-left px-4 flex items-center justify-between hover:bg-black">
+        <button className="w-full text-left px-4 flex items-center  justify-between hover:bg-black">
           <span>{menu.title}</span>
-          <span className="ml-2 text-xs">
+          <span className="ml-2 text-sm">
             {isChild ? "▶" : "▼"}
           </span>
         </button>
@@ -24,7 +24,7 @@ const NestedMenu = ({ menu, isChild = false }) => {
         // Leaf menu with URL
         <a
           href={menu.urlPath}
-          className="block px-4 py-1 text-sm hover:bg-black "
+          className="block px-4 text-sm hover:bg-black "
         >
           {menu.title}
         </a>
@@ -33,11 +33,16 @@ const NestedMenu = ({ menu, isChild = false }) => {
       {/* DROPDOWN */}
       {hasChildren && open && (
         <div
-          className={`absolute bg-[#383838] text-white min-w-40 shadow-lg z-50 rounded-sm
+          className={`absolute bg-[#383838] text-white text-sm min-w-48 border-b shadow-lg z-50 rounded-sm
           ${isChild ? "top-0 left-full" : "top-full left-0"}`}
         >
           {menu.children.map((child) => (
-            <NestedMenu key={child.id} menu={child} isChild={true} />
+             <div 
+        key={child.id}
+        className="border-b border-gray-300 min-w-48 h-7"
+      >
+        <NestedMenu menu={child} isChild={true} />
+      </div>
           ))}
         </div>
       )}

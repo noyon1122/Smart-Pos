@@ -40,9 +40,8 @@ export const menusApi=async()=>{
   return response.data;
 }
 
-export const createMenu=async(menuData)=>{
-  
-  const response =await api.post('/menu/create',menuData)
+export const createMenu = async (menuData) => {
+  const response = await api.post("/menu/create", menuData);
   return response.data;
-}
+};
  
