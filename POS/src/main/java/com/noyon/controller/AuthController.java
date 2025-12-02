@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.noyon.dto.AuthenticationResponse;
 import com.noyon.entity.acl.User;
-import com.noyon.service.IAuthService;
+import com.noyon.service.acl.IAuthService;
 
 @RestController
 @RequestMapping("/api/auth/")

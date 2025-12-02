@@ -44,4 +44,19 @@ export const createMenu = async (menuData) => {
   const response = await api.post("/menu/create", menuData);
   return response.data;
 };
+
+export const createRole =async (roleData) =>{
+  const response =await api.post("role/create",roleData);
+  return response.data;
+}
+
+export const rolesApi=async()=>{
+  const response= await api.get("/roles");
+  return response.data;
+}
+
+export const createUser=async(userData) =>{
+  const response =await api.post("/user/create",userData)
+  return response.data;
+}
  

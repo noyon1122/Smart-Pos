@@ -1,4 +1,4 @@
-package com.noyon.service.impl;
+package com.noyon.service.acl;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,7 +18,6 @@ import com.noyon.exception.CustomException;
 import com.noyon.jwt.JwtService;
 import com.noyon.repository.acl.UserRepository;
 import com.noyon.repository.token.TokenRepository;
-import com.noyon.service.IAuthService;
 import com.noyon.utils.Utils;
 
 @Service 

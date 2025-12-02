@@ -1,4 +1,4 @@
-package com.noyon.service.impl;
+package com.noyon.service.acl;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -17,7 +17,6 @@ import com.noyon.entity.acl.User;
 import com.noyon.exception.CustomException;
 import com.noyon.repository.acl.RequestMapRepository;
 import com.noyon.repository.acl.UserRoleRepository;
-import com.noyon.service.IRequestMapService;
 
 @Service
 public class RequestMapService implements IRequestMapService{

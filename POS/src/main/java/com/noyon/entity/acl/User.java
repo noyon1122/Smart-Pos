@@ -7,13 +7,15 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 
 import com.noyon.entity.csd.Organization;
 import com.noyon.entity.pos.HrDevelopment;
-import com.noyon.entity.pos.HrSaleZone;
+
 import com.noyon.entity.pos.HrZone;
 import com.noyon.entity.pos.Plazas;
 import com.noyon.entity.token.Token;
@@ -45,23 +47,24 @@ public class User implements UserDetails {
 	
 	// Relation
 	@ManyToOne
-	@JoinColumn(name = "plaza_id")
+	@JoinColumn(name = "plaza_id", nullable = true)
+	@OnDelete(action = OnDeleteAction.SET_NULL)
 	private Plazas plazas;
 
 	@ManyToOne
-	@JoinColumn(name = "csd_org_id")
+	@JoinColumn(name = "csd_org_id",nullable = true)
+	@OnDelete(action = OnDeleteAction.SET_NULL)
 	private Organization csdOrg;
 
+	
 	@ManyToOne
-	@JoinColumn(name = "sales_zone_id")
-	private HrSaleZone salesZone;
-
-	@ManyToOne
-	@JoinColumn(name = "psd_id")
+	@JoinColumn(name = "psd_id",nullable = true)
+	@OnDelete(action = OnDeleteAction.SET_NULL)
 	private HrDevelopment psd;
 
 	@ManyToOne
-	@JoinColumn(name = "zone_id")
+	@JoinColumn(name = "zone_id",nullable = true)
+	@OnDelete(action = OnDeleteAction.SET_NULL)
 	private HrZone zone;
 	
 	@OneToMany
@@ -123,7 +126,7 @@ public class User implements UserDetails {
 		// TODO Auto-generated constructor stub
 	}
 	public User(Long id, String fullName, String email, String mobile, String username, String password, Plazas plazas,
-			Organization csdOrg, HrSaleZone salesZone, HrDevelopment psd, HrZone zone, Set<UserRole> userRoles,
+			Organization csdOrg, HrDevelopment psd, HrZone zone, Set<UserRole> userRoles,
 			Boolean enabled, Boolean accountExpired, Boolean accountLocked, Boolean passwordExpired,
 			LocalDateTime created, String createdBy, LocalDateTime modified, String modifiedBy) {
 		super();
@@ -135,7 +138,7 @@ public class User implements UserDetails {
 		this.password = password;
 		this.plazas = plazas;
 		this.csdOrg = csdOrg;
-		this.salesZone = salesZone;
+		
 		this.psd = psd;
 		this.zone = zone;
 		this.userRoles = userRoles;
@@ -184,12 +187,7 @@ public class User implements UserDetails {
 	public void setCsdOrg(Organization csdOrg) {
 		this.csdOrg = csdOrg;
 	}
-	public HrSaleZone getSalesZone() {
-		return salesZone;
-	}
-	public void setSalesZone(HrSaleZone salesZone) {
-		this.salesZone = salesZone;
-	}
+	
 	public HrDevelopment getPsd() {
 		return psd;
 	}

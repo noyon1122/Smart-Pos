@@ -21,7 +21,7 @@ public class Utils {
 		userDto.setUsername(user.getUsername());
 		userDto.setPlazas(user.getPlazas());
 		userDto.setCsdOrg(user.getCsdOrg());
-		userDto.setSalesZone(user.getSalesZone());
+		
 		
 		userDto.setPsd(user.getPsd());
 		

@@ -18,9 +18,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.noyon.jwt.JwtFilter;
-
-import com.noyon.service.impl.CustomUserDetailsService;
-import com.noyon.service.impl.UrlRoleMappingService;
+import com.noyon.service.acl.CustomUserDetailsService;
+import com.noyon.service.acl.UrlRoleMappingService;
 
 @Configuration
 public class SecurityConfig {
@@ -53,7 +52,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> {
 
                     // Public auth endpoints
-                    auth.requestMatchers("/api/auth/**").permitAll();
+                    auth.requestMatchers("/api/auth/login").permitAll();
 
                     // Dynamic URL -> roles from DB
                     urlRoleMap.forEach((url, roles) -> {

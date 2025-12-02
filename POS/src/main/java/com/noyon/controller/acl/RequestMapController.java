@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.noyon.entity.acl.RequestMap;
-import com.noyon.service.IRequestMapService;
+import com.noyon.service.acl.IRequestMapService;
 @RestController
 @RequestMapping("/api/")
 public class RequestMapController {

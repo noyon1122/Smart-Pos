@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.noyon.entity.acl.Menu;
-import com.noyon.service.IMenuService;
+import com.noyon.service.acl.IMenuService;
 
 @RestController
 @RequestMapping("/api/")

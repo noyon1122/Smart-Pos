@@ -24,7 +24,7 @@ const NestedMenu = ({ menu, isChild = false }) => {
         // Leaf menu with URL
         <a
           href={menu.urlPath}
-          className="block px-4 text-sm hover:bg-black "
+          className="block px-4 text-sm hover:bg-black"
         >
           {menu.title}
         </a>
@@ -33,13 +33,13 @@ const NestedMenu = ({ menu, isChild = false }) => {
       {/* DROPDOWN */}
       {hasChildren && open && (
         <div
-          className={`absolute bg-[#383838] text-white text-sm min-w-48 border-b shadow-lg z-50 rounded-sm
+          className={`absolute bg-[#383838] text-white text-sm min-w-48 shadow-lg z-50 rounded-sm
           ${isChild ? "top-0 left-full" : "top-full left-0"}`}
         >
           {menu.children.map((child) => (
              <div 
         key={child.id}
-        className="border-b border-gray-300 min-w-48 h-7"
+        className="border-b  border-gray-300 min-w-48 h-7 "
       >
         <NestedMenu menu={child} isChild={true} />
       </div>

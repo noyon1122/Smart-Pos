@@ -1,6 +1,7 @@
-package com.noyon.service.impl;
+package com.noyon.service.acl;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +13,6 @@ import com.noyon.entity.acl.Role;
 import com.noyon.entity.acl.User;
 import com.noyon.exception.CustomException;
 import com.noyon.repository.acl.RoleRepository;
-import com.noyon.service.IRoleService;
 
 @Service
 public class RoleService implements IRoleService {
@@ -51,6 +51,16 @@ public class RoleService implements IRoleService {
 		}
 		return savedRole;
 	}
+
+
+	@Override
+	public List<Role> getAllRole() {
+		// TODO Auto-generated method stub
+		
+		return roleRepository.findAll();
+	}
+	
+	
 
 	
 }

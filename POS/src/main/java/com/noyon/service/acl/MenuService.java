@@ -1,4 +1,4 @@
-package com.noyon.service.impl;
+package com.noyon.service.acl;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -11,7 +11,6 @@ import com.noyon.entity.acl.Menu;
 import com.noyon.entity.acl.User;
 import com.noyon.exception.CustomException;
 import com.noyon.repository.acl.MenuRepository;
-import com.noyon.service.IMenuService;
 
 @Service
 public class MenuService implements IMenuService {

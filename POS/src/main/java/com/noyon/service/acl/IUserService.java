@@ -1,4 +1,4 @@
-package com.noyon.service;
+package com.noyon.service.acl;
 
 public interface IUserService {
 

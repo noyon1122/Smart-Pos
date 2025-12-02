@@ -1,4 +1,4 @@
-package com.noyon.service;
+package com.noyon.service.acl;
 
 import com.noyon.dto.AuthenticationResponse;
 import com.noyon.entity.acl.User;
