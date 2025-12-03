@@ -55,14 +55,14 @@ export const Navbar = () => {
 
        <nav className="bg-[#383838] text-white font-semibold shadow-md">
       <div className="flex justify-center mx-auto px-4">
-        <div className="flex h-8 items-center">
+        <div className="flex  items-center">
         
           {/* Desktop Menu */}         
           <div className="hidden md:flex items-center">
             {menus.map((menu) => (
               <div 
                 key={menu.id} 
-                className="relative  border-r"
+                className="relative"
                 onMouseEnter={() => setOpenDropdown(menu.id)}
                 onMouseLeave={() => setOpenDropdown(null)}
               >

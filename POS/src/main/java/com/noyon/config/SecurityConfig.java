@@ -56,11 +56,13 @@ public class SecurityConfig {
 
                     // Dynamic URL -> roles from DB
                     urlRoleMap.forEach((url, roles) -> {
-                        auth.requestMatchers(url).hasAnyAuthority(roles);
+                        // Add ant pattern to match all subpaths
+                        auth.requestMatchers(url + "/**").hasAnyAuthority(roles);
                     });
 
+
                     // Any other request
-                    auth.anyRequest().authenticated();
+                    auth.anyRequest().denyAll();
                 })
                 .userDetailsService(customUserDetailsService)
                 .sessionManagement(session ->

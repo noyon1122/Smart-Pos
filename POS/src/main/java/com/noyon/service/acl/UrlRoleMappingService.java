@@ -1,5 +1,6 @@
 package com.noyon.service.acl;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,8 +39,14 @@ public class UrlRoleMappingService {
             // Split comma-separated roles into array
             String[] roles = rm.getConfigAttribute()
                                .split("\\s*,\\s*"); // splits "ADMIN,USER" -> ["ADMIN","USER"]
+            
+            String[] fixedRoles = Arrays.stream(roles)
+            	    .map(r -> r.startsWith("ROLE_") ? r : "ROLE_" + r)
+            	    .toArray(String[]::new);
 
-            urlRoleMap.put(rm.getUrl(), roles);
+            	urlRoleMap.put(rm.getUrl(), fixedRoles);
+
+           
         }
 
         return urlRoleMap;

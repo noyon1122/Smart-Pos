@@ -57,7 +57,7 @@ public class JwtFilter extends  OncePerRequestFilter {
 				List<String> roles = jwtService.extractRoles(token);
 
                 List<GrantedAuthority> authorities = roles.stream()
-                        .map(role -> new SimpleGrantedAuthority("ROLE_" + role)) // Spring requires "ROLE_" prefix
+                		.map(SimpleGrantedAuthority::new) // Spring requires "ROLE_" prefix
                         .collect(Collectors.toList());
                 
 				UsernamePasswordAuthenticationToken authenticationToken= new UsernamePasswordAuthenticationToken(userDetails,null, authorities);
