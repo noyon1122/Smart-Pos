@@ -31,6 +31,12 @@ public class CustomUserDetailsService implements UserDetailsService {
 		Optional<User> userOpt=userRepository.findByUsername(username);
 		return userOpt.orElseThrow(()-> new UsernameNotFoundException("User not found!!!"));
 	}
+	
+	 // NEW: load full user entity for dynamic menu/URL checks
+    public User loadUserEntityByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found!!!"));
+    }
 
 	
 }

@@ -24,6 +24,7 @@ public class UserDto {
 	private HrZone zone;
 	private Set<String> roles = new HashSet<>();
 	private List<String> allowedUrls;
+	private List<MenuDto> allowedMenus;
 	private Boolean enabled;
 	private Boolean accountExpired;
 	private Boolean accountLocked;
@@ -38,11 +39,12 @@ public class UserDto {
 		// TODO Auto-generated constructor stub
 	}
 	
+	
 	public UserDto(Long id, String fullName, String email, String mobile, String username, Plazas plazas,
 			Organization csdOrg, HrSaleZone salesZone, HrDevelopment psd, HrZone zone, Set<String> roles,
-			List<String> allowedUrls, Boolean enabled, Boolean accountExpired, Boolean accountLocked,
-			Boolean passwordExpired, LocalDateTime created, String createdBy, LocalDateTime modified,
-			String modifiedBy) {
+			List<String> allowedUrls, List<MenuDto> allowedMenus, Boolean enabled, Boolean accountExpired,
+			Boolean accountLocked, Boolean passwordExpired, LocalDateTime created, String createdBy,
+			LocalDateTime modified, String modifiedBy) {
 		super();
 		this.id = id;
 		this.fullName = fullName;
@@ -56,6 +58,7 @@ public class UserDto {
 		this.zone = zone;
 		this.roles = roles;
 		this.allowedUrls = allowedUrls;
+		this.allowedMenus = allowedMenus;
 		this.enabled = enabled;
 		this.accountExpired = accountExpired;
 		this.accountLocked = accountLocked;
@@ -65,6 +68,7 @@ public class UserDto {
 		this.modified = modified;
 		this.modifiedBy = modifiedBy;
 	}
+
 
 	public Long getId() {
 		return id;
@@ -188,6 +192,18 @@ public class UserDto {
 	public void setAllowedUrls(List<String> allowedUrls) {
 		this.allowedUrls = allowedUrls;
 	}
+
+
+	public List<MenuDto> getAllowedMenus() {
+		return allowedMenus;
+	}
+
+
+	public void setAllowedMenus(List<MenuDto> allowedMenus) {
+		this.allowedMenus = allowedMenus;
+	}
+	
+	
 	
 	
 }

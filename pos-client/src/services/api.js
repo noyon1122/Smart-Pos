@@ -46,7 +46,7 @@ export const createMenu = async (menuData) => {
 };
 
 export const createRole =async (roleData) =>{
-  const response =await api.post("role/create",roleData);
+  const response =await api.post("/role/create",roleData);
   return response.data;
 }
 

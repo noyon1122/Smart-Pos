@@ -8,5 +8,5 @@ public interface IMenuService {
 
 	public Menu create(Menu menu);
 	public List<Menu> getMainMenu();
-	public List<Menu> getChildMenu(Long parentId);
+
 }

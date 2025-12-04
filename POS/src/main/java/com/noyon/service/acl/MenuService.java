@@ -47,11 +47,6 @@ public class MenuService implements IMenuService {
 		// TODO Auto-generated method stub
 		return menuRepository.findByParentMenuIsNullOrderBySortOrderAsc();
 	}
-	@Override
-	public List<Menu> getChildMenu(Long parentId) {
-		// TODO Auto-generated method stub
-		return menuRepository.findByParentMenuIdOrderBySortOrderAsc(parentId);
-	}
 
 	
 	

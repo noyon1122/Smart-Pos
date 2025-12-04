@@ -11,6 +11,7 @@ const CreateMenu = () => {
     const fetchParentMenus = async () => {
       try {
         const response = await menusApi();
+        console.log("menus : ",response)
         setParentMenus(response);
       } catch (error) {
         console.error("Error fetching menus:", error);

@@ -1,6 +1,7 @@
 package com.noyon.config;
 
 
+import java.util.Arrays;
 import java.util.Map;
 
 import org.springframework.context.annotation.Bean;
@@ -57,7 +58,8 @@ public class SecurityConfig {
                     // Dynamic URL -> roles from DB
                     urlRoleMap.forEach((url, roles) -> {
                         // Add ant pattern to match all subpaths
-                        auth.requestMatchers(url + "/**").hasAnyAuthority(roles);
+                    	System.out.println("Secured URL: " + url + " => Roles: " + Arrays.toString(roles));
+                    	auth.requestMatchers("/api" + url).hasAnyAuthority(roles);
                     });
 
 

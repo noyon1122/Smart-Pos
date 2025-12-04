@@ -12,6 +12,6 @@ public interface MenuRepository extends JpaRepository<Menu, Long> {
 
 	List<Menu> findByParentMenuIsNullOrderBySortOrderAsc();
 
-    List<Menu> findByParentMenuIdOrderBySortOrderAsc(Long parentId);
+  
     
 }

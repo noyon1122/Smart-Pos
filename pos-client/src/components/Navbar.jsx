@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import walton from '../assets/images/waltonforum.png'
 import useAuth from '../hooks/useAuth';
-import { useMenus } from "../hooks/useMenus";
+
 import { useNavigate } from 'react-router-dom';
 import NestedMenu from '../pages/menus/NestedMenu';
 export const Navbar = () => {
@@ -10,9 +10,6 @@ export const Navbar = () => {
   console.log("user: ",user);
   const navigate=useNavigate();
 
-  const { menus, loading } = useMenus();
-
-  console.log(menus);
   const [openDropdown, setOpenDropdown] = useState(null);
   const handleLogout = () => {
     logout();
@@ -25,7 +22,6 @@ export const Navbar = () => {
     setOpenDropdown(openDropdown === name ? null : name);
   };
 
-  if (loading) return <div>Loading...</div>;
 
   return (
     <div className='bg-gradient-to-b from-blue-100 via-white to-white' >
@@ -54,12 +50,12 @@ export const Navbar = () => {
       </div>
 
        <nav className="bg-[#383838] text-white font-semibold shadow-md">
-      <div className="flex justify-center mx-auto px-4">
+      <div className="flex justify-start mx-28 px-4">
         <div className="flex  items-center">
         
           {/* Desktop Menu */}         
           <div className="hidden md:flex items-center">
-            {menus.map((menu) => (
+            {user?.allowedMenus.map((menu) => (
               <div 
                 key={menu.id} 
                 className="relative"

@@ -1,21 +1,21 @@
 package com.noyon.service.acl;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import com.noyon.dto.AuthenticationResponse;
+import com.noyon.dto.MenuDto;
 import com.noyon.dto.UserDto;
+import com.noyon.entity.acl.Menu;
 import com.noyon.entity.acl.User;
 import com.noyon.entity.token.Token;
 import com.noyon.exception.CustomException;
 import com.noyon.jwt.JwtService;
+import com.noyon.repository.acl.MenuRepository;
 import com.noyon.repository.acl.UserRepository;
 import com.noyon.repository.token.TokenRepository;
 import com.noyon.utils.Utils;
@@ -29,18 +29,22 @@ public class AuthService implements IAuthService {
 	private final AuthenticationManager authenticationManager;
 	private final PasswordEncoder passwordEncoder;
 	private final RequestMapService requestMapService;
+    private final MenuRepository menuRepository;
 	
 
 	public AuthService(JwtService jwtService, UserRepository userRepository, TokenRepository tokenRepository,
-			AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder,RequestMapService requestMapService) {
+			AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder,
+			RequestMapService requestMapService, MenuRepository menuRepository) {
 		super();
 		this.jwtService = jwtService;
 		this.userRepository = userRepository;
 		this.tokenRepository = tokenRepository;
 		this.authenticationManager = authenticationManager;
 		this.passwordEncoder = passwordEncoder;
-		this.requestMapService=requestMapService;
+		this.requestMapService = requestMapService;
+		this.menuRepository = menuRepository;
 	}
+
 
 	@Override
 	public AuthenticationResponse register(User user) {
@@ -102,11 +106,22 @@ public class AuthService implements IAuthService {
 
 	        // get allowed URLs by roles
 	        List<String> allowedUrls = requestMapService.getUrlsByRoles(roleNames);
+	        
 
 	        System.out.println("allowedUrls : " + allowedUrls);
 
 			UserDto userDto = Utils.mapUserEntityToUserDto(saveUser, allowedUrls);
 			
+			
+			//get allowed Menu 
+			List<Menu> mainMenus = menuRepository.findByParentMenuIsNullOrderBySortOrderAsc();
+
+			List<MenuDto> allowedMenus = mainMenus.stream()
+			        .map(menu -> Utils.mapMenuEntityToMenuDto(menu, allowedUrls))
+			        .filter(dto -> dto != null)
+			        .toList();
+
+			userDto.setAllowedMenus(allowedMenus);
 			invalidUserToken(saveUser);
 			savedUserToken(accessToken, refreshToken, saveUser);
 			response.setStatusCode(200);

@@ -1,9 +1,9 @@
 package com.noyon.service.acl;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,6 @@ public class UrlRoleMappingService {
 		super();
 		this.requestMapRepository = requestMapRepository;
 	}
-
 
 
 	 public Map<String, String[]> getUrlRoleMap() {
@@ -51,4 +50,18 @@ public class UrlRoleMappingService {
 
         return urlRoleMap;
     }
+	 
+	 public boolean canAccess(String url, List<String> userRoles) {
+		      String normalizedUrl = url.startsWith("/api") ? url.substring(4) : url;
+	        Optional<RequestMap> rm = requestMapRepository.findByUrl(normalizedUrl);
+	        if (rm.isEmpty()) {
+	            return false;
+	        }
+
+	        List<String> allowedRoles = Arrays.stream(rm.get().getConfigAttribute().split("\\s*,\\s*"))
+	                .map(r -> r.startsWith("ROLE_") ? r : "ROLE_" + r)
+	                .toList();
+
+	        return userRoles.stream().anyMatch(allowedRoles::contains);
+	    }
 }
