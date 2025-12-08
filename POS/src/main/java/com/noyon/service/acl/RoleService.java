@@ -1,26 +1,21 @@
 package com.noyon.service.acl;
-
 import java.time.LocalDateTime;
 import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
 import com.noyon.entity.acl.Role;
 import com.noyon.entity.acl.User;
 import com.noyon.exception.CustomException;
 import com.noyon.repository.acl.RoleRepository;
-
 @Service
 public class RoleService implements IRoleService {
 	
 	private final RoleRepository roleRepository;
 	private static final Logger log = LoggerFactory.getLogger(RoleService.class);
 	
-
 	public RoleService(RoleRepository roleRepository) {
 		super();
 		this.roleRepository = roleRepository;
@@ -44,7 +39,6 @@ public class RoleService implements IRoleService {
 			// TODO: handle exception
 			log.error("CustomException occurred: {}", e.getMessage(), e);
 			
-			
 		}catch (Exception e) {
 			// TODO: handle exception
 			log.error("Unexpected error: {}", e.getMessage(), e);
@@ -56,11 +50,7 @@ public class RoleService implements IRoleService {
 	@Override
 	public List<Role> getAllRole() {
 		// TODO Auto-generated method stub
-		
 		return roleRepository.findAll();
 	}
-	
-	
 
-	
 }

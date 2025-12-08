@@ -1,5 +1,106 @@
 package com.noyon.service.acl;
 
-public class UserService {
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.noyon.dto.AuthenticationResponse;
+import com.noyon.dto.UserDto;
+import com.noyon.entity.acl.Role;
+import com.noyon.entity.acl.User;
+import com.noyon.entity.acl.UserRole;
+import com.noyon.entity.pos.Plazas;
+import com.noyon.exception.CustomException;
+import com.noyon.repository.acl.RoleRepository;
+import com.noyon.repository.acl.UserRepository;
+import com.noyon.repository.pos.PlazasRepository;
+import com.noyon.utils.Utils;
+@Service
+public class UserService implements IUserService {
+
+	private UserRepository userRepository;
+	private final PasswordEncoder passwordEncoder;
+	private final PlazasRepository plazasRepository;
+	private final RoleRepository roleRepository;
+	private static final Logger log = LoggerFactory.getLogger(UserService.class);
+
+	public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder,
+			PlazasRepository plazasRepository, RoleRepository roleRepository) {
+		super();
+		this.userRepository = userRepository;
+		this.passwordEncoder = passwordEncoder;
+		this.plazasRepository = plazasRepository;
+		this.roleRepository = roleRepository;
+	}
+
+	@Override
+	@Transactional
+	public AuthenticationResponse createUser(User user) {
+		// TODO Auto-generated method stub
+		AuthenticationResponse response=new AuthenticationResponse();
+		try {
+			
+			if(userRepository.existsByUsername(user.getUsername())) {
+				throw new CustomException("Opps!! User already exists");
+			}
+			
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            User adminUser = (User) auth.getPrincipal();
+            
+            // plaza
+	        if (user.getPlazas() != null && user.getPlazas().getId() != null) {
+	            Plazas plaza = plazasRepository.findById(user.getPlazas().getId())
+	                    .orElseThrow(() -> new CustomException("Invalid plaza ID"));
+	            user.setPlazas(plaza);
+	        } 
+
+	        Set<UserRole> userRoles = new HashSet<>();
+	        if (user.getRoles() != null) {
+
+	            for (Long roleId : user.getRoles()) {
+
+	                Role role = roleRepository.findById(roleId)
+	                        .orElseThrow(() -> new CustomException("Invalid Role ID: " + roleId));
+
+	                UserRole userRole = new UserRole();
+	                userRole.setUser(user);
+	                userRole.setRole(role);
+	                userRoles.add(userRole);
+	            }
+	        }
+
+	        user.setUserRoles(userRoles);
+			user.setPassword(passwordEncoder.encode(user.getPassword()));
+			user.setCreated(LocalDateTime.now());
+			user.setCreatedBy(adminUser.getUsername());
+			user.setEnabled(true);
+			user.setAccountExpired(false);
+			user.setAccountLocked(false);
+			user.setPasswordExpired(false);
+			User savedUser=userRepository.save(user);
+			UserDto userDto =Utils.mapUserEntityToUserDto(savedUser,null);
+			response.setStatusCode(200);
+			response.setUserDto(userDto);
+			response.setMessage("User Registration have been done Successfully");
+			
+		}catch (CustomException e) {
+			// TODO: handle exception
+			response.setStatusCode(400);
+			response.setMessage(e.getMessage());
+		} catch (Exception e) {
+			// TODO: handle exception
+			response.setStatusCode(500);
+			response.setMessage("Error Saving a User"+e.getMessage());
+		}
+		return response;
+	}
+	
 }

@@ -26,6 +26,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 @Entity
 @Table(name = "acl_users")
 public class User implements UserDetails {
@@ -37,6 +38,9 @@ public class User implements UserDetails {
 	private String mobile;
 	private String username;
 	private String password;
+	@Transient
+	private List<Long> roles;   // will hold only role IDs from client
+
 	
 	// Relation
 	@ManyToOne
@@ -117,10 +121,12 @@ public class User implements UserDetails {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public User(Long id, String fullName, String email, String mobile, String username, String password, Plazas plazas,
-			Organization csdOrg, HrDevelopment psd, HrZone zone, Set<UserRole> userRoles,
-			Boolean enabled, Boolean accountExpired, Boolean accountLocked, Boolean passwordExpired,
-			LocalDateTime created, String createdBy, LocalDateTime modified, String modifiedBy) {
+	
+	public User(Long id, String fullName, String email, String mobile, String username, String password,
+			List<Long> roles, Plazas plazas, Organization csdOrg, HrDevelopment psd, HrZone zone, List<Token> tokens,
+			Set<UserRole> userRoles, Boolean enabled, Boolean accountExpired, Boolean accountLocked,
+			Boolean passwordExpired, LocalDateTime created, String createdBy, LocalDateTime modified,
+			String modifiedBy) {
 		super();
 		this.id = id;
 		this.fullName = fullName;
@@ -128,10 +134,12 @@ public class User implements UserDetails {
 		this.mobile = mobile;
 		this.username = username;
 		this.password = password;
+		this.roles = roles;
 		this.plazas = plazas;
 		this.csdOrg = csdOrg;
 		this.psd = psd;
 		this.zone = zone;
+		this.tokens = tokens;
 		this.userRoles = userRoles;
 		this.enabled = enabled;
 		this.accountExpired = accountExpired;
@@ -251,5 +259,19 @@ public class User implements UserDetails {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	public List<Long> getRoles() {
+		return roles;
+	}
+	public void setRoles(List<Long> roles) {
+		this.roles = roles;
+	}
+	public List<Token> getTokens() {
+		return tokens;
+	}
+	public void setTokens(List<Token> tokens) {
+		this.tokens = tokens;
+	}
+	
+	
 
 }

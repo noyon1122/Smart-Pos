@@ -8,4 +8,5 @@ import com.noyon.entity.acl.UserRole;
 @Repository
 public interface UserRoleRepository extends JpaRepository<UserRole, Long> {
 
+	
 }

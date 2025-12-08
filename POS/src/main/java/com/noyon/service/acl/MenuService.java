@@ -1,7 +1,6 @@
 package com.noyon.service.acl;
 import java.time.LocalDateTime;
 import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -11,7 +10,6 @@ import com.noyon.entity.acl.Menu;
 import com.noyon.entity.acl.User;
 import com.noyon.exception.CustomException;
 import com.noyon.repository.acl.MenuRepository;
-
 @Service
 public class MenuService implements IMenuService {
 
@@ -25,7 +23,6 @@ public class MenuService implements IMenuService {
 	public Menu create(Menu menu) {
 		Menu savedMenu=new Menu();
 		try {
-			
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User adminUser = (User) auth.getPrincipal();
             menu.setCreated(LocalDateTime.now());
@@ -48,7 +45,4 @@ public class MenuService implements IMenuService {
 		return menuRepository.findByParentMenuIsNullOrderBySortOrderAsc();
 	}
 
-	
-	
-	
 }
