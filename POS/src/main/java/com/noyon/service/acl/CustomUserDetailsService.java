@@ -1,11 +1,16 @@
 package com.noyon.service.acl;
 
-import java.util.Optional;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.noyon.entity.acl.User;
 import com.noyon.repository.acl.UserRepository;
@@ -22,21 +27,15 @@ public class CustomUserDetailsService implements UserDetailsService {
 		super();
 		this.userRepository = userRepository;
 	}
-
-
-
 	@Override
+	@Transactional
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		// TODO Auto-generated method stub
-		Optional<User> userOpt=userRepository.findByUsername(username);
-		return userOpt.orElseThrow(()-> new UsernameNotFoundException("User not found!!!"));
+	    User user = userRepository.findByUsername(username)
+	            .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+	    return user; // return entity itself
 	}
-	
-	 // NEW: load full user entity for dynamic menu/URL checks
-    public User loadUserEntityByUsername(String username) {
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found!!!"));
-    }
 
+	
+	
 	
 }

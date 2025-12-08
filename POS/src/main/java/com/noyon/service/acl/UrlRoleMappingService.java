@@ -52,7 +52,7 @@ public class UrlRoleMappingService {
     }
 	 
 	 public boolean canAccess(String url, List<String> userRoles) {
-		      String normalizedUrl = url.startsWith("/api") ? url.substring(4) : url;
+		      String normalizedUrl = url;
 	        Optional<RequestMap> rm = requestMapRepository.findByUrl(normalizedUrl);
 	        if (rm.isEmpty()) {
 	            return false;

@@ -59,4 +59,10 @@ export const createUser=async(userData) =>{
   const response =await api.post("/user/create",userData)
   return response.data;
 }
+
+export const getMyMenu=async()=>{
+  const response=await api.get("/auth/me");
+  console.log(response.data)
+  return response.data;
+}
  

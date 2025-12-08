@@ -39,13 +39,12 @@ public class JwtService {
 	 //Generate Token
 	 
 	 private String generateToken(User user,long expiredTime) {
-		 List<String> roles = user.getUserRoles()
-			        .stream()
-			        .map(ur -> ur.getRole().getAuthority())  // e.g., "ADMIN"
-			        .toList();
+//		 List<String> roles = user.getUserRoles()
+//			        .stream()
+//			        .map(ur -> ur.getRole().getAuthority())  // e.g., "ADMIN" .claim("roles", roles)
+//			        .toList();
 		 return Jwts
 				 .builder()
-				 .claim("roles", roles)
 				 .subject(user.getUsername())
 				 .issuedAt(new Date(System.currentTimeMillis()))
 				 .expiration(new Date(System.currentTimeMillis()+expiredTime))

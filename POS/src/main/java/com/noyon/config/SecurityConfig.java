@@ -1,27 +1,21 @@
 package com.noyon.config;
-
-
 import java.util.Arrays;
 import java.util.Map;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
 import com.noyon.jwt.JwtFilter;
 import com.noyon.service.acl.CustomUserDetailsService;
 import com.noyon.service.acl.UrlRoleMappingService;
-
 @Configuration
 public class SecurityConfig {
 
@@ -29,10 +23,6 @@ public class SecurityConfig {
 	private final CustomLogoutHandler customLogoutHandler;
 	private final CustomUserDetailsService customUserDetailsService;
 	private final UrlRoleMappingService urlRoleMappingService;
-	
-	
-	
-	
 	public SecurityConfig(JwtFilter jwtFilter, CustomLogoutHandler customLogoutHandler,
 			CustomUserDetailsService customUserDetailsService, UrlRoleMappingService urlRoleMappingService) {
 		super();
@@ -54,6 +44,7 @@ public class SecurityConfig {
 
                     // Public auth endpoints
                     auth.requestMatchers("/api/auth/login").permitAll();
+                    auth.requestMatchers("/api/auth/me").authenticated();
 
                     // Dynamic URL -> roles from DB
                     urlRoleMap.forEach((url, roles) -> {
@@ -61,8 +52,6 @@ public class SecurityConfig {
                     	System.out.println("Secured URL: " + url + " => Roles: " + Arrays.toString(roles));
                     	auth.requestMatchers("/api" + url).hasAnyAuthority(roles);
                     });
-
-
                     // Any other request
                     auth.anyRequest().denyAll();
                 })

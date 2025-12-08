@@ -1,14 +1,34 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import walton from '../assets/images/waltonforum.png'
 import useAuth from '../hooks/useAuth';
 
 import { useNavigate } from 'react-router-dom';
 import NestedMenu from '../pages/menus/NestedMenu';
+import { getMyMenu, menusApi } from '../services/api';
 export const Navbar = () => {
-    
+
+  const [myMenus, setMyMenus] = useState({ allowedMenus: [] });
+
+
   const {user,logout}=useAuth();
   console.log("user: ",user);
   const navigate=useNavigate();
+
+    useEffect(() => {
+      const fetchParentMenus = async () => {
+        try {
+          const response = await getMyMenu();
+          const responseMenu = await menusApi();
+          console.log("menus of me: ",response)
+          console.log("all menus : ",responseMenu)
+          setMyMenus(response);
+        } catch (error) {
+          console.error("Error fetching menus:", error);
+        }
+      };
+  
+      fetchParentMenus();
+    }, []);
 
   const [openDropdown, setOpenDropdown] = useState(null);
   const handleLogout = () => {
@@ -55,7 +75,7 @@ export const Navbar = () => {
         
           {/* Desktop Menu */}         
           <div className="hidden md:flex items-center">
-            {user?.allowedMenus.map((menu) => (
+            {myMenus?.allowedMenus.map((menu) => (
               <div 
                 key={menu.id} 
                 className="relative"

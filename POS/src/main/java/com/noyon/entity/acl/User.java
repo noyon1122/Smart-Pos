@@ -6,20 +6,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-
 import com.noyon.entity.csd.Organization;
 import com.noyon.entity.pos.HrDevelopment;
-
 import com.noyon.entity.pos.HrZone;
 import com.noyon.entity.pos.Plazas;
 import com.noyon.entity.token.Token;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -30,12 +26,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-
 @Entity
 @Table(name = "acl_users")
-
 public class User implements UserDetails {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -86,10 +79,9 @@ public class User implements UserDetails {
 	private String modifiedBy;
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
-		 return userRoles.stream()
-	                .map(userRole -> (GrantedAuthority) () -> "ROLE_" + userRole.getRole().getAuthority())
-	                .collect(Collectors.toSet());
+	    return userRoles.stream()
+	            .map(ur -> new SimpleGrantedAuthority(ur.getRole().getAuthority()))
+	            .collect(Collectors.toSet());
 	}
 	@Override
 	public String getPassword() {
@@ -138,7 +130,6 @@ public class User implements UserDetails {
 		this.password = password;
 		this.plazas = plazas;
 		this.csdOrg = csdOrg;
-		
 		this.psd = psd;
 		this.zone = zone;
 		this.userRoles = userRoles;
@@ -260,8 +251,5 @@ public class User implements UserDetails {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	
-	
-	
+
 }
