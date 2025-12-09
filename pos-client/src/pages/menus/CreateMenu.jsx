@@ -117,7 +117,7 @@ const CreateMenu = () => {
               {...register("menuType")}
               defaultValue="MAIN_MENU"
               
-              className="flex-1 border px-3 py-[3px] rounded bg-gray-100"
+              className="flex-1 border  px-3 py-[3px] rounded bg-gray-100"
             />
           </div>
 
@@ -126,7 +126,7 @@ const CreateMenu = () => {
             <label className="w-32 text-right text-sm">Parent Menu</label>
             <select
               {...register("parentMenu")}
-              className="flex-1 border px-[3px] py-[3px] rounded"
+              className="flex-1 border w-32 px-[3px] py-[3px] rounded"
             >
               <option value="">Select parent menu</option>
               {renderMenuOptions(parentMenus)}

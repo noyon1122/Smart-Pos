@@ -65,4 +65,15 @@ export const getMyMenu=async()=>{
   console.log(response.data)
   return response.data;
 }
+
+export const plazasApi=async()=>{
+  const response =await api.get("/plazas")
+  return response.data;
+}
+
+export const createPermission=async(permissionData)=>{
+
+  const response =await api.post("/requestmap/create",permissionData)
+  return response.data;
+}
  

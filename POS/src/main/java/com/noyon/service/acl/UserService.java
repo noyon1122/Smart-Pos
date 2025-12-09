@@ -81,10 +81,6 @@ public class UserService implements IUserService {
 			user.setPassword(passwordEncoder.encode(user.getPassword()));
 			user.setCreated(LocalDateTime.now());
 			user.setCreatedBy(adminUser.getUsername());
-			user.setEnabled(true);
-			user.setAccountExpired(false);
-			user.setAccountLocked(false);
-			user.setPasswordExpired(false);
 			User savedUser=userRepository.save(user);
 			UserDto userDto =Utils.mapUserEntityToUserDto(savedUser,null);
 			response.setStatusCode(200);

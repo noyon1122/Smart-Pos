@@ -11,7 +11,6 @@ import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import com.noyon.entity.csd.Organization;
 import com.noyon.entity.pos.HrDevelopment;
 import com.noyon.entity.pos.HrZone;
 import com.noyon.entity.pos.Plazas;
@@ -47,11 +46,6 @@ public class User implements UserDetails {
 	@JoinColumn(name = "plaza_id", nullable = true)
 	@OnDelete(action = OnDeleteAction.SET_NULL)
 	private Plazas plazas;
-
-	@ManyToOne
-	@JoinColumn(name = "csd_org_id",nullable = true)
-	@OnDelete(action = OnDeleteAction.SET_NULL)
-	private Organization csdOrg;
 
 	
 	@ManyToOne
@@ -123,7 +117,7 @@ public class User implements UserDetails {
 	}
 	
 	public User(Long id, String fullName, String email, String mobile, String username, String password,
-			List<Long> roles, Plazas plazas, Organization csdOrg, HrDevelopment psd, HrZone zone, List<Token> tokens,
+			List<Long> roles, Plazas plazas,HrDevelopment psd, HrZone zone, List<Token> tokens,
 			Set<UserRole> userRoles, Boolean enabled, Boolean accountExpired, Boolean accountLocked,
 			Boolean passwordExpired, LocalDateTime created, String createdBy, LocalDateTime modified,
 			String modifiedBy) {
@@ -136,7 +130,7 @@ public class User implements UserDetails {
 		this.password = password;
 		this.roles = roles;
 		this.plazas = plazas;
-		this.csdOrg = csdOrg;
+		
 		this.psd = psd;
 		this.zone = zone;
 		this.tokens = tokens;
@@ -180,12 +174,7 @@ public class User implements UserDetails {
 	public void setPlazas(Plazas plazas) {
 		this.plazas = plazas;
 	}
-	public Organization getCsdOrg() {
-		return csdOrg;
-	}
-	public void setCsdOrg(Organization csdOrg) {
-		this.csdOrg = csdOrg;
-	}
+
 	
 	public HrDevelopment getPsd() {
 		return psd;
@@ -271,7 +260,5 @@ public class User implements UserDetails {
 	public void setTokens(List<Token> tokens) {
 		this.tokens = tokens;
 	}
-	
-	
 
 }

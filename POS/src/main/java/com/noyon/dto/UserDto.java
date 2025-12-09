@@ -1,12 +1,9 @@
 package com.noyon.dto;
-
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import com.noyon.entity.csd.Organization;
 import com.noyon.entity.pos.HrDevelopment;
-import com.noyon.entity.pos.HrSaleZone;
 import com.noyon.entity.pos.HrZone;
 import com.noyon.entity.pos.Plazas;
 
@@ -18,8 +15,6 @@ public class UserDto {
 	private String mobile;
 	private String username;
 	private Plazas plazas;
-	private Organization csdOrg;
-	private HrSaleZone salesZone;
 	private HrDevelopment psd;
 	private HrZone zone;
 	private Set<String> roles = new HashSet<>();
@@ -38,13 +33,10 @@ public class UserDto {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-	
 	public UserDto(Long id, String fullName, String email, String mobile, String username, Plazas plazas,
-			Organization csdOrg, HrSaleZone salesZone, HrDevelopment psd, HrZone zone, Set<String> roles,
-			List<String> allowedUrls, List<MenuDto> allowedMenus, Boolean enabled, Boolean accountExpired,
-			Boolean accountLocked, Boolean passwordExpired, LocalDateTime created, String createdBy,
-			LocalDateTime modified, String modifiedBy) {
+			HrDevelopment psd, HrZone zone, Set<String> roles, List<String> allowedUrls, List<MenuDto> allowedMenus,
+			Boolean enabled, Boolean accountExpired, Boolean accountLocked, Boolean passwordExpired,
+			LocalDateTime created, String createdBy, LocalDateTime modified, String modifiedBy) {
 		super();
 		this.id = id;
 		this.fullName = fullName;
@@ -52,8 +44,6 @@ public class UserDto {
 		this.mobile = mobile;
 		this.username = username;
 		this.plazas = plazas;
-		this.csdOrg = csdOrg;
-		this.salesZone = salesZone;
 		this.psd = psd;
 		this.zone = zone;
 		this.roles = roles;
@@ -68,8 +58,6 @@ public class UserDto {
 		this.modified = modified;
 		this.modifiedBy = modifiedBy;
 	}
-
-
 	public Long getId() {
 		return id;
 	}
@@ -106,18 +94,6 @@ public class UserDto {
 	public void setPlazas(Plazas plazas) {
 		this.plazas = plazas;
 	}
-	public Organization getCsdOrg() {
-		return csdOrg;
-	}
-	public void setCsdOrg(Organization csdOrg) {
-		this.csdOrg = csdOrg;
-	}
-	public HrSaleZone getSalesZone() {
-		return salesZone;
-	}
-	public void setSalesZone(HrSaleZone salesZone) {
-		this.salesZone = salesZone;
-	}
 	public HrDevelopment getPsd() {
 		return psd;
 	}
@@ -135,6 +111,18 @@ public class UserDto {
 	}
 	public void setRoles(Set<String> roles) {
 		this.roles = roles;
+	}
+	public List<String> getAllowedUrls() {
+		return allowedUrls;
+	}
+	public void setAllowedUrls(List<String> allowedUrls) {
+		this.allowedUrls = allowedUrls;
+	}
+	public List<MenuDto> getAllowedMenus() {
+		return allowedMenus;
+	}
+	public void setAllowedMenus(List<MenuDto> allowedMenus) {
+		this.allowedMenus = allowedMenus;
 	}
 	public Boolean getEnabled() {
 		return enabled;
@@ -184,26 +172,6 @@ public class UserDto {
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
-
-	public List<String> getAllowedUrls() {
-		return allowedUrls;
-	}
-
-	public void setAllowedUrls(List<String> allowedUrls) {
-		this.allowedUrls = allowedUrls;
-	}
-
-
-	public List<MenuDto> getAllowedMenus() {
-		return allowedMenus;
-	}
-
-
-	public void setAllowedMenus(List<MenuDto> allowedMenus) {
-		this.allowedMenus = allowedMenus;
-	}
-	
-	
 	
 	
 }

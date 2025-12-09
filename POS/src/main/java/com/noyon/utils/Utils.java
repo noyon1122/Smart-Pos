@@ -23,7 +23,7 @@ public class Utils {
 		userDto.setEmail(user.getEmail());
 		userDto.setUsername(user.getUsername());
 		userDto.setPlazas(user.getPlazas());
-		userDto.setCsdOrg(user.getCsdOrg());
+		
 		
 		
 		userDto.setPsd(user.getPsd());
