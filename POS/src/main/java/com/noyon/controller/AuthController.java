@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.noyon.dto.AuthenticationResponse;
 import com.noyon.dto.MenuDto;
 import com.noyon.dto.UserDto;
@@ -25,8 +24,6 @@ import com.noyon.repository.acl.MenuRepository;
 import com.noyon.service.acl.IAuthService;
 import com.noyon.service.acl.RequestMapService;
 import com.noyon.utils.Utils;
-
-
 
 @RestController
 @RequestMapping("/api/auth/")
@@ -56,7 +53,7 @@ public class AuthController {
 		return ResponseEntity.ok(response);
 	}
 	
-	@GetMapping("/me")
+	@GetMapping("me")
 	@Transactional
 	public ResponseEntity<UserDto> getCurrentUserInfo() {
 	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -82,6 +79,16 @@ public class AuthController {
 
 	    return ResponseEntity.ok(userDto);
 	}
+	
+	@GetMapping("testt")
+	public String getSomething(){
+		return "Successfully access the url2";
+	}
+	@GetMapping("test")
+	public String getSomethin(){
+		return "Successfully access the url";
+	}
+
 
 	
 	

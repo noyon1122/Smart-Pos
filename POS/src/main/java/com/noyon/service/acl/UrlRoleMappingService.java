@@ -52,16 +52,22 @@ public class UrlRoleMappingService {
     }
 	 
 	 public boolean canAccess(String url, List<String> userRoles) {
-		      String normalizedUrl = url;
-	        Optional<RequestMap> rm = requestMapRepository.findByUrl(normalizedUrl);
-	        if (rm.isEmpty()) {
-	            return false;
-	        }
 
-	        List<String> allowedRoles = Arrays.stream(rm.get().getConfigAttribute().split("\\s*,\\s*"))
-	                .map(r -> r.startsWith("ROLE_") ? r : "ROLE_" + r)
-	                .toList();
+		    // Normalize: remove /api prefix
+		    if (url.startsWith("/api")) {
+		        url = url.substring(4); // remove "/api"
+		    }
 
-	        return userRoles.stream().anyMatch(allowedRoles::contains);
-	    }
+		    Optional<RequestMap> rm = requestMapRepository.findByUrl(url);
+		    if (rm.isEmpty()) {
+		        return false;
+		    }
+
+		    List<String> allowedRoles = Arrays.stream(
+		            rm.get().getConfigAttribute().split("\\s*,\\s*")
+		    ).map(r -> r.startsWith("ROLE_") ? r : "ROLE_" + r).toList();
+
+		    return userRoles.stream().anyMatch(allowedRoles::contains);
+		}
+
 }

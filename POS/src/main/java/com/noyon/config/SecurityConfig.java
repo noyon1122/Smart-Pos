@@ -1,9 +1,8 @@
 package com.noyon.config;
-import java.util.Arrays;
-import java.util.Map;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -34,39 +33,47 @@ public class SecurityConfig {
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		 // Load URL -> Roles dynamically
-        Map<String, String[]> urlRoleMap = urlRoleMappingService.getUrlRoleMap();
 
-        return http
-                .csrf(csrf -> csrf.disable())
-                .cors(Customizer.withDefaults())
-                .authorizeHttpRequests(auth -> {
+	    return http
+	            .csrf(csrf -> csrf.disable())
+	            .cors(Customizer.withDefaults())
+	            .authorizeHttpRequests(auth -> auth
+	                
+	                // public endpoints
+	                .requestMatchers("/api/auth/login").permitAll()
+	                .requestMatchers("/api/auth/me").authenticated()
 
-                    // Public auth endpoints
-                    auth.requestMatchers("/api/auth/login").permitAll();
-                    auth.requestMatchers("/api/auth/me").authenticated();
+	                // everything else → run DB-based check
+	                .anyRequest().access((authentication, context) -> {
+	                    String path = context.getRequest().getRequestURI();
+	                    
+	                    if (path.startsWith("/api")) {
+	                        path = path.substring(4);
+	                    }
 
-                    // Dynamic URL -> roles from DB
-                    urlRoleMap.forEach((url, roles) -> {
-                        // Add ant pattern to match all subpaths
-                    	System.out.println("Secured URL: " + url + " => Roles: " + Arrays.toString(roles));
-                    	auth.requestMatchers("/api" + url).hasAnyAuthority(roles);
-                    });
-                    // Any other request
-                    auth.anyRequest().denyAll();
-                })
-                .userDetailsService(customUserDetailsService)
-                .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .addLogoutHandler(customLogoutHandler)
-                        .logoutSuccessHandler((req, res, authn) ->
-                                SecurityContextHolder.clearContext())
-                )
-                .build();
-    }
+	                    // Get roles of logged-in user
+	                    var authorities = authentication.get().getAuthorities()
+	                            .stream()
+	                            .map(a -> a.getAuthority())
+	                            .toList();
+
+	                    boolean allowed = urlRoleMappingService.canAccess(path, authorities);
+	                    return new AuthorizationDecision(allowed);
+	                   
+	                })
+	            )
+	            .sessionManagement(session ->
+	                    session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+	            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+	            .logout(logout -> logout
+	                    .logoutUrl("/logout")
+	                    .addLogoutHandler(customLogoutHandler)
+	                    .logoutSuccessHandler((req, res, authn) ->
+	                            SecurityContextHolder.clearContext())
+	            )
+	            .build();
+	}
+
 	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
