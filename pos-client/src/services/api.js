@@ -72,8 +72,14 @@ export const plazasApi=async()=>{
 }
 
 export const createPermission=async(permissionData)=>{
-
   const response =await api.post("/requestmap/create",permissionData)
   return response.data;
 }
+
+export const usersApi= async ()=>{
+  const response=await api.get("/users");
+  return response.data;
+}
+
+
  

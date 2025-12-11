@@ -2,6 +2,7 @@ package com.noyon.service.acl;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -98,5 +99,16 @@ public class UserService implements IUserService {
 		}
 		return response;
 	}
+
+	@Override
+	public List<User> getAllUser() {
+		// TODO Auto-generated method stub
+		
+		List<User> userList=userRepository.findAll();
+		
+		return userList;
+	}
+	
+	
 	
 }

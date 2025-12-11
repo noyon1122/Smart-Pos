@@ -1,19 +1,16 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
-
 import Login from "../pages/auth/Login";
-
-
 import CreateMenu from "../pages/menus/CreateMenu";
 import PrivateRoutes from "./PrivateRoutes";
 import Unauthorized from "../pages/Unauthorized";
-
 import ListMenu from "../pages/menus/ListMenu";
 import CreateUser from "../pages/users/CreateUser";
 import CreateRole from "../pages/role/CreateRole";
 import CreatePermission from "../pages/requestmap/CreatePermission";
-
-
+import ListRole from "../pages/role/ListRole";
+import ListUser from "../pages/users/ListUser";
+import ListPermission from "../pages/requestmap/ListPermission";
 const router=createBrowserRouter([
 
     {
@@ -27,9 +24,11 @@ const router=createBrowserRouter([
                     { path: "menu/create", element:<CreateMenu /> },
                     { path: "menu/list", element: <ListMenu />},
                     { path: "user/create", element: <CreateUser />},
-                    { path: "user/list", element: <ListMenu />},
+                    { path: "user/list", element: <ListUser />},
                     { path: "role/create", element: <CreateRole />},
+                    { path: "role/list", element: <ListRole />},
                     { path: "requestmap/create", element: <CreatePermission />},
+                    { path: "requestmap/list", element: <ListPermission />},
                 ] 
            }
            

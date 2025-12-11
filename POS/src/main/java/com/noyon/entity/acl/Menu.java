@@ -33,7 +33,7 @@ public class Menu {
     private String menuClass;
     private String menuType = "MAIN_MENU";
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "parent_menu_id")
     @JsonBackReference
     private Menu parentMenu;

@@ -40,9 +40,9 @@ public class MenuService implements IMenuService {
 		return savedMenu;
 	}
 	@Override
-	public List<Menu> getMainMenu() {
+	public List<Menu> getAllMenu() {
 		// TODO Auto-generated method stub
-		return menuRepository.findByParentMenuIsNullOrderBySortOrderAsc();
+		return menuRepository.findAll();
 	}
 
 }

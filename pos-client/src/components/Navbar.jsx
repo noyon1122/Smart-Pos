@@ -3,7 +3,7 @@ import walton from '../assets/images/waltonforum.png'
 import useAuth from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import NestedMenu from '../pages/menus/NestedMenu';
-import { getMyMenu, menusApi } from '../services/api';
+import { getMyMenu } from '../services/api';
 export const Navbar = () => {
 
   const [myMenus, setMyMenus] = useState({ allowedMenus: [] });
@@ -17,9 +17,9 @@ export const Navbar = () => {
       const fetchParentMenus = async () => {
         try {
           const response = await getMyMenu();
-          const responseMenu = await menusApi();
+          
           console.log("menus of me: ",response)
-          console.log("all menus : ",responseMenu)
+          
           setMyMenus(response);
         } catch (error) {
           console.error("Error fetching menus:", error);
