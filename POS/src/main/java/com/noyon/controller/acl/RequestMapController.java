@@ -1,6 +1,9 @@
 package com.noyon.controller.acl;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,5 +26,12 @@ public class RequestMapController {
 	public ResponseEntity<RequestMap> create(@RequestBody RequestMap requestMap){
 		RequestMap savedRequestMap=requestMapService.create(requestMap);
 		return ResponseEntity.ok(savedRequestMap);
+	}
+	
+	@GetMapping("requestmaps")
+	public ResponseEntity<List<RequestMap>> getAllRequestMap()
+	{
+		List<RequestMap> allrequestmap=requestMapService.getAllRequestMaps();
+		return ResponseEntity.ok(allrequestmap);
 	}
 }

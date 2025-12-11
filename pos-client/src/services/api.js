@@ -81,5 +81,10 @@ export const usersApi= async ()=>{
   return response.data;
 }
 
+export const requestmapsApi=async ()=>{
+  const response =await api.get("/requestmaps");
+  return response.data;
+}
+
 
  

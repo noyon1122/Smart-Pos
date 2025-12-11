@@ -63,5 +63,13 @@ public class RequestMapService implements IRequestMapService{
                 .map(RequestMap::getUrl)
                 .collect(Collectors.toList());
     }
+
+	@Override
+	public List<RequestMap> getAllRequestMaps() {
+		// TODO Auto-generated method stub
+		return requestMapRepository.findAll();
+	}
+	
+	
 	
 }
