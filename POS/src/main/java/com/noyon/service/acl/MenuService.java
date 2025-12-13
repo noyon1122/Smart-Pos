@@ -44,5 +44,61 @@ public class MenuService implements IMenuService {
 		// TODO Auto-generated method stub
 		return menuRepository.findAll();
 	}
+	@Override
+	public Menu updateMenu(Menu menu, Long id) {
+		// TODO Auto-generated method stub
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User adminUser = (User) auth.getPrincipal();
+		Menu updateMenu=new Menu();
+		try {
+			
+			Menu existingMenu = menuRepository.findById(id).orElseThrow(
+					()-> new CustomException("Hotel is not not found by this id : "+id));
+			existingMenu.setTitle(menu.getTitle());
+			existingMenu.setDescription(menu.getDescription());
+			existingMenu.setUrlPath(menu.getUrlPath());
+			existingMenu.setParentMenu(menu.getParentMenu());
+			existingMenu.setIsExternal(menu.getIsExternal());
+			existingMenu.setIsOpenNewTab(menu.getIsOpenNewTab());
+			existingMenu.setIsActive(menu.getIsActive());
+			existingMenu.setModified(LocalDateTime.now());
+			existingMenu.setModifiedBy(adminUser.getUsername());
+			updateMenu=menuRepository.save(existingMenu);
+			
+	}catch (CustomException e) {
+		// TODO: handle exception
+		log.error("CustomException occurred: {}", e.getMessage(), e);
+		
+		
+	}catch (Exception e) {
+		// TODO: handle exception
+		log.error("Unexpected error: {}", e.getMessage(), e);
+	}
+		return updateMenu;
+	}
+	@Override
+	public Menu getMenuById(Long id) {
+		// TODO Auto-generated method stub
+		Menu menu=new Menu();
+try {
+			
+			Menu existingMenu = menuRepository.findById(id).orElseThrow(
+					()-> new CustomException("Hotel is not not found by this id : "+id));
+			menu=existingMenu;
+	}catch (CustomException e) {
+		// TODO: handle exception
+		log.error("CustomException occurred: {}", e.getMessage(), e);
+		
+		
+	}catch (Exception e) {
+		// TODO: handle exception
+		log.error("Unexpected error: {}", e.getMessage(), e);
+	}
+		 return menu;
+	}
+	
+	
+	
+	
 
 }

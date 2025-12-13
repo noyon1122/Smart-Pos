@@ -7,9 +7,9 @@ const api=axios.create({
 api.interceptors.request.use((config)=>{
     const token=localStorage.getItem("token");
     console.log("JWT token: ",token);
-    if(token){
-        config.headers.Authorization=`Bearer ${token}`;
-    }
+    if (token && !config.url.includes("/auth/login")) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
     return config;
 })
 
@@ -20,6 +20,7 @@ export const register=async(userData) => {
 }
 
 export const loginApi = async (loginData) => {
+  localStorage.removeItem("token");
   const response = await api.post('/auth/login', loginData);
    console.log("Login response:", response.data);
   const token = response.data.accessToken;
@@ -86,5 +87,9 @@ export const requestmapsApi=async ()=>{
   return response.data;
 }
 
+export const getMenuById = async (id) => {
+  const response = await api.get(`/menu/update/${id}`);
+  return response.data;
+};
 
  

@@ -38,7 +38,6 @@ const CreateMenu = () => {
       title: data.title,
       description: data.description,
       urlPath: data.urlPath,                    // FIXED NAME
-      menuClass: data.menuClass,
       menuType: data.menuType || "MAIN_MENU",
       sortOrder: Number(data.sortOrder) || 0,
 
@@ -96,16 +95,6 @@ const CreateMenu = () => {
               {...register("urlPath", { required: true })}
               className="flex-1 border px-3 py-[3px] rounded"
               placeholder=""
-            />
-          </div>
-
-          {/* Menu Class */}
-          <div className="flex items-center gap-3">
-            <label className="w-32 text-right text-sm">Menu Class</label>
-            <input
-              type="text"
-              {...register("menuClass")}
-              className="flex-1 border px-3 py-[3px] rounded"
             />
           </div>
 

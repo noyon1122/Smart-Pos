@@ -1,6 +1,7 @@
 package com.noyon.repository.acl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -11,5 +12,6 @@ import com.noyon.entity.acl.Menu;
 public interface MenuRepository extends JpaRepository<Menu, Long> {
 
 	List<Menu> findByParentMenuIsNullOrderBySortOrderAsc();
+    Optional<Menu>findById(Long id);
     
 }

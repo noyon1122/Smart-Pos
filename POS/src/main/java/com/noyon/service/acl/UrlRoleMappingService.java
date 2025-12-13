@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.util.AntPathMatcher;
 
 import com.noyon.entity.acl.RequestMap;
 
@@ -57,17 +58,34 @@ public class UrlRoleMappingService {
 		    if (url.startsWith("/api")) {
 		        url = url.substring(4); // remove "/api"
 		    }
+//
+//		    Optional<RequestMap> rm = requestMapRepository.findByUrl(url);
+//		    if (rm.isEmpty()) {
+//		        return false;
+//		    }
+//
+//		    List<String> allowedRoles = Arrays.stream(
+//		            rm.get().getConfigAttribute().split("\\s*,\\s*")
+//		    ).map(r -> r.startsWith("ROLE_") ? r : "ROLE_" + r).toList();
+//
+//		    return userRoles.stream().anyMatch(allowedRoles::contains);
+//		}
+		 
+			    List<RequestMap> requestMaps = requestMapRepository.findAll();
+			    AntPathMatcher matcher = new AntPathMatcher();
 
-		    Optional<RequestMap> rm = requestMapRepository.findByUrl(url);
-		    if (rm.isEmpty()) {
-		        return false;
-		    }
+			    for (RequestMap rm : requestMaps) {
 
-		    List<String> allowedRoles = Arrays.stream(
-		            rm.get().getConfigAttribute().split("\\s*,\\s*")
-		    ).map(r -> r.startsWith("ROLE_") ? r : "ROLE_" + r).toList();
+			        if (matcher.match(rm.getUrl(), url)) {
 
-		    return userRoles.stream().anyMatch(allowedRoles::contains);
-		}
+			            List<String> allowedRoles = Arrays.stream(
+			                    rm.getConfigAttribute().split("\\s*,\\s*")
+			            ).map(r -> r.startsWith("ROLE_") ? r : "ROLE_" + r)
+			             .toList();
 
+			            return userRoles.stream().anyMatch(allowedRoles::contains);
+			        }
+			    }
+			    return false;
+	 }
 }
