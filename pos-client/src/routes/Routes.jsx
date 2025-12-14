@@ -13,6 +13,8 @@ import ListUser from "../pages/users/ListUser";
 import ListPermission from "../pages/requestmap/ListPermission";
 import UpdateMenu from "../pages/menus/UpdateMenu";
 import ShowMenu from "../pages/menus/ShowMenu";
+import TestMenu from "../pages/menus/TestMenu";
+import UpdateUser from "../pages/users/UpdateUser";
 const router=createBrowserRouter([
 
     {
@@ -24,10 +26,12 @@ const router=createBrowserRouter([
                 element:<PrivateRoutes />,
                 children:[
                     { path: "menu/create", element:<CreateMenu /> },
+                    { path: "test/url", element:<TestMenu /> },
                     { path: "menu/list", element: <ListMenu />},
                     { path: "menu/update/:id", element: <UpdateMenu /> },
                     { path: "menu/show/:id", element: <ShowMenu /> },
                     { path: "user/create", element: <CreateUser />},
+                    { path: "user/update/:id", element: <UpdateUser />},
                     { path: "user/list", element: <ListUser />},
                     { path: "role/create", element: <CreateRole />},
                     { path: "role/list", element: <ListRole />},

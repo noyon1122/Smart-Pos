@@ -102,4 +102,9 @@ export const hiMenusApi =async ()=>{
   return response.data;
 }
 
+export const getUserById =async(id)=>{
+  const response=await api.get(`user/update/${id}`);
+  return response.data;
+}
+
  

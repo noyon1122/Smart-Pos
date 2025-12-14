@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { usersApi } from '../../services/api';
+import { useNavigate } from 'react-router-dom';
 
 const ListUser = () => {
   const [users, setUsers] = useState([]);
+  const navigate=useNavigate()
 
   useEffect(() => {
     fetchUsers();
@@ -57,7 +59,7 @@ const ListUser = () => {
                 <td className="border p-2 text-center">
                   <div className="flex items-center justify-center gap-3">
 
-                    {/* Edit button */}
+                    {/* View button */}
                     <button
                       className="p-1 hover:opacity-80"
                       onClick={() => console.log("Edit:", user.id)}
@@ -69,10 +71,10 @@ const ListUser = () => {
                       />
                     </button>
 
-                    {/* View button */}
+                    {/* Edit button */}
                     <button
                       className="p-1 hover:opacity-80"
-                      onClick={() => console.log("View:", user.id)}
+                      onClick={() => navigate(`/user/update/${user.id}`)}
                     >
                       <img
                         src="/icons/view.png"

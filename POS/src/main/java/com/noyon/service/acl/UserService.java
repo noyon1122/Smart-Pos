@@ -108,6 +108,26 @@ public class UserService implements IUserService {
 		
 		return userList;
 	}
+
+	@Override
+	public User getUserById(Long id) {
+		// TODO Auto-generated method stub
+		
+		User user=new User();
+		try {
+			User existingUser=userRepository.findById(id).orElseThrow(()-> new CustomException("User not found with this id : "+id) );
+			user=existingUser;
+		} catch (CustomException e) {
+			// TODO: handle exception
+			log.error("CustomException occurred: {}", e.getMessage(), e);
+		}catch (Exception e) {
+			// TODO: handle exception
+			log.error("Unexpected error occurred: {}", e.getMessage(), e);
+		}
+		return user;
+	}
+	
+	
 	
 	
 	

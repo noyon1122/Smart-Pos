@@ -79,6 +79,8 @@ public class MenuService implements IMenuService {
 	}
 		return updateMenu;
 	}
+	
+	
 	@Override
 	public Menu getMenuById(Long id) {
 		// TODO Auto-generated method stub
@@ -86,7 +88,7 @@ public class MenuService implements IMenuService {
 try {
 			
 			Menu existingMenu = menuRepository.findById(id).orElseThrow(
-					()-> new CustomException("Hotel is not not found by this id : "+id));
+					()-> new CustomException("Menu is not not found by this id : "+id));
 			menu=existingMenu;
 	}catch (CustomException e) {
 		// TODO: handle exception
