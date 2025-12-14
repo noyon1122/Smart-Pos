@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import {  menusApi } from "../../services/api";
+import { useNavigate } from "react-router-dom";
 
 const ListMenu = () => {
   const [menus, setMenus] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchMenus();
@@ -27,6 +29,7 @@ const ListMenu = () => {
           <thead>
             <tr className="bg-linear-to-t bg-sky-900 to-sky-400  text-white text-sm">
               <th className="border p-2">Title</th>
+              <th className="border p-2">Parent Menu</th>
               <th className="border p-2">Url Path</th>
               <th className="border p-2">Description</th>
               <th className="border p-2">Menu Type</th>
@@ -46,6 +49,7 @@ const ListMenu = () => {
             {menus.map((menu) => (
               <tr key={menu.id} className="text-sm border hover:bg-gray-50">
                 <td className="border p-2">{menu.title}</td>
+                <td className="border p-2">{menu.parentMenu?.title || ''}</td>
                 <td className="border p-2">{menu.urlPath}</td>
                 <td className="border p-2">{menu.description}</td>
                 <td className="border p-2">{menu.menuType}</td>
@@ -57,22 +61,22 @@ const ListMenu = () => {
                     {/* Edit button */}
                     <button
                       className="p-1 hover:opacity-80"
-                      onClick={() => console.log("Edit:", menu.id)}
+                      onClick={() => navigate(`/menu/show/${menu.id}`)}
                     >
                       <img
-                        src="/icons/edit.png"
+                        src="/icons/show.png"
                         alt="Edit"
                         className="w-5 h-5"
                       />
                     </button>
 
-                    {/* View button */}
+                    {/* Edit button */}
                     <button
                       className="p-1 hover:opacity-80"
-                      onClick={() => console.log("View:", menu.id)}
+                      onClick={() => navigate(`/menu/update/${menu.id}`)}
                     >
                       <img
-                        src="/icons/view.png"
+                        src="/icons/edit.png"
                         alt="View"
                         className="w-5 h-5"
                       />

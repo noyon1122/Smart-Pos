@@ -68,8 +68,9 @@ public class AuthController {
 	    List<String> allowedUrls = requestMapService.getUrlsByRoles(roleNames);
 
 	    // allowed Menus from DB
-	    List<Menu> mainMenus = menuRepository.findByParentMenuIsNullOrderBySortOrderAsc();
-	    List<MenuDto> allowedMenus = mainMenus.stream()
+	    List<Menu> mainMenus = menuRepository.findAll();		
+		List<MenuDto> hierarchicalMenus = Utils.buildHierarchicalMenu(mainMenus);
+	    List<MenuDto> allowedMenus = hierarchicalMenus.stream()
 	            .map(menu -> Utils.mapMenuEntityToMenuDto(menu, allowedUrls))
 	            .filter(Objects::nonNull)
 	            .toList();

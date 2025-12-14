@@ -114,9 +114,11 @@ public class AuthService implements IAuthService {
 			
 			
 			//get allowed Menu 
-			List<Menu> mainMenus = menuRepository.findByParentMenuIsNullOrderBySortOrderAsc();
+			List<Menu> mainMenus = menuRepository.findAll();
+			
+			List<MenuDto> hierarchicalMenus = Utils.buildHierarchicalMenu(mainMenus);
 
-			List<MenuDto> allowedMenus = mainMenus.stream()
+			List<MenuDto> allowedMenus = hierarchicalMenus.stream()
 			        .map(menu -> Utils.mapMenuEntityToMenuDto(menu, allowedUrls))
 			        .filter(dto -> dto != null)
 			        .toList();

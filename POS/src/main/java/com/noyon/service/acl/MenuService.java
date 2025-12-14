@@ -6,10 +6,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import com.noyon.dto.MenuDto;
 import com.noyon.entity.acl.Menu;
 import com.noyon.entity.acl.User;
 import com.noyon.exception.CustomException;
 import com.noyon.repository.acl.MenuRepository;
+import com.noyon.utils.Utils;
 @Service
 public class MenuService implements IMenuService {
 
@@ -95,6 +98,16 @@ try {
 		log.error("Unexpected error: {}", e.getMessage(), e);
 	}
 		 return menu;
+	}
+	@Override
+	public List<MenuDto> getAllHiararchicalMenu() {
+		// TODO Auto-generated method stub
+		
+		List<Menu> mainMenus = menuRepository.findAll();
+		
+		List<MenuDto> hierarchicalMenus = Utils.buildHierarchicalMenu(mainMenus);
+		
+		return hierarchicalMenus;
 	}
 	
 	

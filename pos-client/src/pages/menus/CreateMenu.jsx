@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { createMenu, menusApi } from "../../services/api";
+import { createMenu, hiMenusApi } from "../../services/api";
 
 const CreateMenu = () => {
   const { register, handleSubmit, reset } = useForm();
@@ -10,7 +10,7 @@ const CreateMenu = () => {
   useEffect(() => {
     const fetchParentMenus = async () => {
       try {
-        const response = await menusApi();
+        const response = await hiMenusApi();
         console.log("menus : ",response)
         setParentMenus(response);
       } catch (error) {

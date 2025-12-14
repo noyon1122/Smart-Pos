@@ -11,6 +11,8 @@ import CreatePermission from "../pages/requestmap/CreatePermission";
 import ListRole from "../pages/role/ListRole";
 import ListUser from "../pages/users/ListUser";
 import ListPermission from "../pages/requestmap/ListPermission";
+import UpdateMenu from "../pages/menus/UpdateMenu";
+import ShowMenu from "../pages/menus/ShowMenu";
 const router=createBrowserRouter([
 
     {
@@ -23,6 +25,8 @@ const router=createBrowserRouter([
                 children:[
                     { path: "menu/create", element:<CreateMenu /> },
                     { path: "menu/list", element: <ListMenu />},
+                    { path: "menu/update/:id", element: <UpdateMenu /> },
+                    { path: "menu/show/:id", element: <ShowMenu /> },
                     { path: "user/create", element: <CreateUser />},
                     { path: "user/list", element: <ListUser />},
                     { path: "role/create", element: <CreateRole />},

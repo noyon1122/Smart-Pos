@@ -2,7 +2,7 @@ package com.noyon.service.acl;
 
 import java.util.List;
 
-
+import com.noyon.dto.MenuDto;
 import com.noyon.entity.acl.Menu;
 
 public interface IMenuService {
@@ -11,4 +11,5 @@ public interface IMenuService {
 	public List<Menu> getAllMenu();
 	public Menu updateMenu(Menu menu,Long id);
     public Menu getMenuById(Long id);
+    public List<MenuDto> getAllHiararchicalMenu();
 }

@@ -11,25 +11,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.noyon.dto.MenuDto;
 import com.noyon.entity.acl.Menu;
-import com.noyon.repository.token.TokenRepository;
 import com.noyon.service.acl.IMenuService;
-import com.noyon.service.acl.UrlRoleMappingService;
+
 
 @RestController
 @RequestMapping("/api/")
 public class MenuController {
-
-    private final TokenRepository tokenRepository;
-
 	private final IMenuService menuService;
-	private final UrlRoleMappingService urlRoleMappingService;
-
-	public MenuController(IMenuService menuService,UrlRoleMappingService urlRoleMappingService, TokenRepository tokenRepository) {
+	public MenuController(IMenuService menuService) {
 		super();
 		this.menuService = menuService;
-		this.urlRoleMappingService=urlRoleMappingService;
-		this.tokenRepository = tokenRepository;
+		
 	}
 	
 	@PostMapping("menu/create")
@@ -55,6 +50,20 @@ public class MenuController {
 			// TODO: handle exception
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 		}
+	}
+	
+	@PostMapping("menu/update/{id}")
+	public ResponseEntity<Menu> updateMenu(@RequestBody Menu menu,@PathVariable Long id)
+	{
+		Menu updateMenu=menuService.updateMenu(menu, id);
+		return ResponseEntity.ok(updateMenu);
+	}
+	
+	@GetMapping("hiMenus")
+	public ResponseEntity<List<MenuDto>> getHiararchicalMenu()
+	{
+		List<MenuDto> menuList=menuService.getAllHiararchicalMenu();
+		return ResponseEntity.ok(menuList);
 	}
 	
 }

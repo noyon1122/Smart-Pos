@@ -92,4 +92,14 @@ export const getMenuById = async (id) => {
   return response.data;
 };
 
+export const updateMenu =async(id,updateData)=>{
+  const response=await api.post(`/menu/update/${id}`,updateData);
+  return response.data;
+}
+
+export const hiMenusApi =async ()=>{
+  const response=await api.get("/hiMenus");
+  return response.data;
+}
+
  

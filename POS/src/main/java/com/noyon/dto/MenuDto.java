@@ -10,12 +10,10 @@ public class MenuDto {
     private String urlPath;
     private String menuClass;
     private String menuType;
-
     private Boolean isExternal;
     private Boolean isOpenNewTab;
     private Boolean isActive;
     private Integer sortOrder;
-
     private List<MenuDto> children;  // Important: recursive list
 
     public MenuDto() {}
