@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
 import { menusApi } from "../services/api";
-
-
 export const useMenus = () => {
   const [menus, setMenus] = useState([]);
   const [loading, setLoading] = useState(true);

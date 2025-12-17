@@ -1,30 +1,41 @@
+import { useContext } from "react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { AuthContext } from "../providers/AuthProvider";
+import PageLoader from "../utils/PageLoader";
 
 const PrivateRoutes = () => {
-  const token = localStorage.getItem("token");
-  const allowedUrls = JSON.parse(localStorage.getItem("allowedUrls")) || [];
+  const { user, loading } = useContext(AuthContext);
   const location = useLocation();
 
-  let path = location.pathname.replace(/\/$/, ""); // trim trailing slash
+  // wait until auth check finishes
+  if (loading) return <PageLoader />;
 
-  if (!token) return <Navigate to="/login" replace />;
+  // not logged in
+ if (!user) {
+  return (
+    <Navigate
+      to="/login"
+      replace
+      state={{ from: location.pathname }}
+    />
+  );
+}
+
+  const allowedUrls = user.allowedUrls || [];
+  const path = location.pathname.replace(/\/$/, "");
 
   const hasAccess = allowedUrls.some(url => {
     if (!url || url === "#") return false;
 
-    // handle /** wildcard
     if (url.endsWith("/**")) {
-      const base = url.replace("/**", "");
-      return path.startsWith(base);
+      return path.startsWith(url.replace("/**", ""));
     }
 
-    // exact match
     return path === url;
   });
 
   if (!hasAccess) {
     console.log("BLOCKED:", path);
-    console.log("ALLOWED:", allowedUrls);
     return <Navigate to="/unauthorized" replace />;
   }
 

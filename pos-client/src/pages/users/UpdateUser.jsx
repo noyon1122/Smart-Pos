@@ -10,18 +10,21 @@ const UpdateUser = () => {
     const [singleUser, setSingleUser] = useState(null)
     const { id } = useParams();
 
-    useEffect(() => {
-    if (!singleUser) return;
+    console.log("roles : ", roles)
+    console.log("existing user : ", singleUser)
 
-    reset({
-        fullName: singleUser.fullName ?? "",
-        email: singleUser.email ?? "",
-        mobile: singleUser.mobile ?? "",
-        username: singleUser.username ?? "",
-        plaza: singleUser.plazaId ?? "",
-        roles: singleUser.roleIds ?? [], // must be ID array
-    });
-}, [singleUser, reset]);
+    useEffect(() => {
+        if (!singleUser || roles.length === 0) return;
+
+        reset({
+            fullName: singleUser.fullName ?? "",
+            email: singleUser.email ?? "",
+            mobile: singleUser.mobile ?? "",
+            username: singleUser.username ?? "",
+            plaza: singleUser.plazas?.id ?? "",
+            roles: singleUser.roles?.map(r => String(r.id)) ?? [],
+        });
+    }, [singleUser, roles, reset]);
 
 
     // Fetch all role
@@ -79,18 +82,14 @@ const UpdateUser = () => {
             mobile: data.mobile,
             username: data.username,
             password: data.password,
-
             plazas: data.plaza ? { id: Number(data.plaza) } : null,
-
             roles: data.roles
                 ? data.roles.map((id) => Number(id))
                 : []
 
         };
 
-
         console.log("Final Payload:", payload);
-
         try {
             await createUser(payload);
             alert("User created successfully!");
@@ -176,20 +175,24 @@ const UpdateUser = () => {
 
 
                     {/* Parent Menu */}
-                    <div className="flex items-center gap-3">
-                        <label className="w-32 text-right text-sm">Roles</label>
-                        <select
-                            multiple
-                            {...register("roles")}
-                            className="flex-1 border px-[3px] py-[3px] rounded h-28"
-                        >
-                            {roles.map((r) => (
-                                <option key={r.id} value={r.id}>
-                                    {r.authority}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
+                    {/* Roles as checkboxes */}
+<div className="flex items-start gap-3">
+    <label className="w-32 text-right text-sm pt-1">Roles</label>
+    <div className="border rounded p-2 flex-1 h-28 overflow-y-auto bg-white shadow-sm">
+        {roles.map((r) => (
+            <label key={r.id} className="flex items-center gap-2">
+                <input
+                    type="checkbox"
+                    value={String(r.id)} // Use id as value
+                    {...register("roles")} // RHF will manage array automatically
+                    defaultChecked={singleUser?.roles?.some(role => role.id === r.id)} // Pre-check existing roles
+                />
+                <span className="text-sm">{r.authority}</span>
+            </label>
+        ))}
+    </div>
+</div>
+
 
                     <div className="text-start">
                         <button

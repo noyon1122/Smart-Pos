@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import walton from '../../assets/images/waltonforum.png'
 import useAuth from '../../hooks/useAuth';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { loginApi } from '../../services/api';
 const Login = () => {
-
-  const {login}=useAuth();
+  const location = useLocation();
+  const { login, myAuth } = useAuth();
   const navigate=useNavigate();
+  const redirectTo = location.state?.from || "/";
   const [form,setForm]=useState(
     {
       username:"",
@@ -19,17 +20,23 @@ const Login = () => {
      const updatedForm = { ...form, [name]: value };
     setForm(updatedForm);
   };
- const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
   e.preventDefault();
   try {
-   const  {token,user}= await loginApi(form); // now returns decoded token
-    login(token,user);
-     navigate("/")
+    const { token } = await loginApi(form);
+
+    await login(token);      // store token
+    await myAuth();          // fetch /auth/me
+
     alert("Login successful!");
+    navigate(redirectTo, { replace: true })
+
   } catch (err) {
+    console.error(err);
     alert("Login failed");
   }
 };
+
 
   return (
     <div className="flex flex-col items-center justify-center bg-gradient-to-b  pt-20">

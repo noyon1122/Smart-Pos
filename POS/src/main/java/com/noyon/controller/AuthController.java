@@ -1,11 +1,8 @@
 package com.noyon.controller;
-
-
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,7 +30,6 @@ public class AuthController {
 	private final RequestMapService requestMapService;
 	private final MenuRepository menuRepository;
 
-	
 	
 	public AuthController(IAuthService authService, RequestMapService requestMapService,
 			MenuRepository menuRepository) {
@@ -81,18 +77,11 @@ public class AuthController {
 	    return ResponseEntity.ok(userDto);
 	}
 	
-	@GetMapping("testt")
-	public String getSomething(){
-		return "Successfully access the url2";
-	}
+
 	@GetMapping("test")
 	public String getSomethin(){
 		return "Successfully access the url";
 	}
 
-
-	
-	
-	
 	
 }

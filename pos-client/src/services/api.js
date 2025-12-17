@@ -20,15 +20,17 @@ export const register=async(userData) => {
 }
 
 export const loginApi = async (loginData) => {
-  localStorage.removeItem("token");
   const response = await api.post('/auth/login', loginData);
-   console.log("Login response:", response.data);
   const token = response.data.accessToken;
+
   if (!token || token.split('.').length !== 3) {
     throw new Error("Invalid token format from backend.");
   }
 
-  return { token: token, user: response.data.userDto };
+  // store token immediately
+  localStorage.setItem("token", token);
+
+  return { token}; // return user too
 };
 
 export const logout=async()=>{

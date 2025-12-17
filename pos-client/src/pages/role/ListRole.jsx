@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { rolesApi } from '../../services/api';
 import { format } from 'date-fns';
+import view from '../../../public/images/view.png'
+import edit from '../../../public/images/edit.png'
+import { useNavigate } from 'react-router-dom';
 
 const ListRole = () => {
     const [roles, setRoles] = useState([]);
+    const navigate=useNavigate();
 
     useEffect(() => {
         fetchRoles();
@@ -59,11 +63,11 @@ const ListRole = () => {
                                         {/* Edit button */}
                                         <button
                                             className="p-1 hover:opacity-80"
-                                            onClick={() => console.log("Edit:", role.id)}
+                                             onClick={() => navigate(`/role/update/${role.id}`)}
                                         >
                                             <img
-                                                src="/icons/edit.png"
-                                                alt="Edit"
+                                                src={view}
+                                                alt="show"
                                                 className="w-5 h-5"
                                             />
                                         </button>
@@ -71,11 +75,11 @@ const ListRole = () => {
                                         {/* View button */}
                                         <button
                                             className="p-1 hover:opacity-80"
-                                            onClick={() => console.log("View:", role.id)}
+                                            onClick={() => navigate(`/role/show/${role.id}`)}
                                         >
                                             <img
-                                                src="/icons/view.png"
-                                                alt="View"
+                                                src={edit}
+                                                alt="Edit"
                                                 className="w-5 h-5"
                                             />
                                         </button>

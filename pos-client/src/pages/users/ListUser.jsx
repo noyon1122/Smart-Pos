@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { usersApi } from '../../services/api';
 import { useNavigate } from 'react-router-dom';
+import view from '../../../public/images/view.png'
+import edit from '../../../public/images/edit.png'
+
 
 const ListUser = () => {
   const [users, setUsers] = useState([]);
@@ -62,10 +65,10 @@ const ListUser = () => {
                     {/* View button */}
                     <button
                       className="p-1 hover:opacity-80"
-                      onClick={() => console.log("Edit:", user.id)}
+                      onClick={() => navigate(`/user/show/${user.id}`)}
                     >
                       <img
-                        src="/icons/edit.png"
+                        src={view}
                         alt="Edit"
                         className="w-5 h-5"
                       />
@@ -77,7 +80,7 @@ const ListUser = () => {
                       onClick={() => navigate(`/user/update/${user.id}`)}
                     >
                       <img
-                        src="/icons/view.png"
+                        src={edit}
                         alt="View"
                         className="w-5 h-5"
                       />

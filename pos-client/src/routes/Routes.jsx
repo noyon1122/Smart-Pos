@@ -13,41 +13,45 @@ import ListUser from "../pages/users/ListUser";
 import ListPermission from "../pages/requestmap/ListPermission";
 import UpdateMenu from "../pages/menus/UpdateMenu";
 import ShowMenu from "../pages/menus/ShowMenu";
-import TestMenu from "../pages/menus/TestMenu";
 import UpdateUser from "../pages/users/UpdateUser";
-const router=createBrowserRouter([
+import ShowUser from "../pages/users/ShowUser";
+import UpdateRole from "../pages/role/UpdateRole";
+import Test from "../utils/Test";
+const router = createBrowserRouter([
 
     {
-        path:'/',
-        element:<App></App>,
-        children:[
-           
+        path: '/',
+        element: <App></App>,
+        children: [
+
             {
-                element:<PrivateRoutes />,
-                children:[
-                    { path: "menu/create", element:<CreateMenu /> },
-                    { path: "test/url", element:<TestMenu /> },
-                    { path: "menu/list", element: <ListMenu />},
+                element: <PrivateRoutes />,
+                children: [
+                    { path: "menu/create", element: <CreateMenu /> },
+                    { path: "menu/list", element: <ListMenu /> },
                     { path: "menu/update/:id", element: <UpdateMenu /> },
                     { path: "menu/show/:id", element: <ShowMenu /> },
-                    { path: "user/create", element: <CreateUser />},
-                    { path: "user/update/:id", element: <UpdateUser />},
-                    { path: "user/list", element: <ListUser />},
-                    { path: "role/create", element: <CreateRole />},
-                    { path: "role/list", element: <ListRole />},
-                    { path: "requestmap/create", element: <CreatePermission />},
-                    { path: "requestmap/list", element: <ListPermission />},
-                ] 
-           }
-           
+                    { path: "user/create", element: <CreateUser /> },
+                    { path: "user/update/:id", element: <UpdateUser /> },
+                    { path: "user/show/:id", element: <ShowUser /> },
+                    { path: "user/list", element: <ListUser /> },
+                    { path: "role/create", element: <CreateRole /> },
+                    { path: "role/update/:id", element: <UpdateRole /> },
+                    { path: "role/list", element: <ListRole /> },
+                    { path: "requestmap/create", element: <CreatePermission /> },
+                    { path: "requestmap/list", element: <ListPermission /> },
+                    { path: "walton/test", element: <Test /> },
+                ]
+            }
+
         ]
     },
 
-     {
-            path:'/login',
-                element:<Login></Login>
-            },
-    
+    {
+        path: '/login',
+        element: <Login></Login>
+    },
+
     { path: "/unauthorized", element: <Unauthorized /> },
 ])
 

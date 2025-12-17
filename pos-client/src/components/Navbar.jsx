@@ -5,21 +5,14 @@ import { useNavigate } from 'react-router-dom';
 import NestedMenu from '../pages/menus/NestedMenu';
 import { getMyMenu } from '../services/api';
 export const Navbar = () => {
-
   const [myMenus, setMyMenus] = useState({ allowedMenus: [] });
-
-
   const {user,logout}=useAuth();
-  console.log("user: ",user);
   const navigate=useNavigate();
 
     useEffect(() => {
       const fetchParentMenus = async () => {
         try {
           const response = await getMyMenu();
-          
-          console.log("menus of me: ",response)
-          
           setMyMenus(response);
         } catch (error) {
           console.error("Error fetching menus:", error);
