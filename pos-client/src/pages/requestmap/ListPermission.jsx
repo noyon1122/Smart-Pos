@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { requestmapsApi } from '../../services/api';
 import { format } from 'date-fns';
+import view from '../../../public/images/view.png'
+import edit from '../../../public/images/edit.png'
+import { useNavigate } from 'react-router-dom';
 
 const ListPermission = () => {
     const [requestmaps, setRequestmaps] = useState([]);
+    const navigate=useNavigate();
 
     useEffect(() => {
         fetchRequestmaps();
@@ -62,11 +66,11 @@ const ListPermission = () => {
                                         {/* Edit button */}
                                         <button
                                             className="p-1 hover:opacity-80"
-                                            onClick={() => console.log("Edit:", user.id)}
+                                            onClick={() => navigate(`/requestmap/show/${requestmap.id}`)}
                                         >
                                             <img
-                                                src="/icons/edit.png"
-                                                alt="Edit"
+                                                src={view}
+                                                alt="View"
                                                 className="w-5 h-5"
                                             />
                                         </button>
@@ -74,11 +78,11 @@ const ListPermission = () => {
                                         {/* View button */}
                                         <button
                                             className="p-1 hover:opacity-80"
-                                            onClick={() => console.log("View:", user.id)}
+                                            onClick={() => navigate(`/requestmap/update/${requestmap.id}`)}
                                         >
                                             <img
-                                                src="/icons/view.png"
-                                                alt="View"
+                                                src={edit}
+                                                alt="Edit"
                                                 className="w-5 h-5"
                                             />
                                         </button>

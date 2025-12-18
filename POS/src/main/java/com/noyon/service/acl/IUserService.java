@@ -11,4 +11,5 @@ public interface IUserService {
 	public AuthenticationResponse createUser(User user);
 	public List<User> getAllUser();
 	public User getUserById(Long id);
+	public User updateUser(User user,Long id);
 }

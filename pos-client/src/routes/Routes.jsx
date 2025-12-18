@@ -16,7 +16,8 @@ import ShowMenu from "../pages/menus/ShowMenu";
 import UpdateUser from "../pages/users/UpdateUser";
 import ShowUser from "../pages/users/ShowUser";
 import UpdateRole from "../pages/role/UpdateRole";
-import Test from "../utils/Test";
+import UpdatePermission from "../pages/requestmap/UpdatePermission";
+import ShowPermission from "../pages/requestmap/ShowPermission";
 const router = createBrowserRouter([
 
     {
@@ -40,7 +41,9 @@ const router = createBrowserRouter([
                     { path: "role/list", element: <ListRole /> },
                     { path: "requestmap/create", element: <CreatePermission /> },
                     { path: "requestmap/list", element: <ListPermission /> },
-                    { path: "walton/test", element: <Test /> },
+                    { path: "requestmap/update/:id", element: <UpdatePermission /> },
+                    { path: "requestmap/show/:id", element: <ShowPermission /> },
+                   
                 ]
             }
 

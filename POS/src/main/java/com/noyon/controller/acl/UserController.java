@@ -50,4 +50,15 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 		}
 	}
+	@PostMapping("user/update/{id}")
+	public ResponseEntity<User> updateuser(@RequestBody User user,@PathVariable Long id)
+	{
+		try {
+			User updateUser=userService.updateUser(user, id);
+			return ResponseEntity.ok(updateUser);
+		} catch (Exception e) {
+			// TODO: handle exception
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		}
+	}
 }

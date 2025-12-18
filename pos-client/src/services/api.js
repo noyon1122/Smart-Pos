@@ -109,4 +109,9 @@ export const getUserById =async(id)=>{
   return response.data;
 }
 
+export const updateUser =async(updateUser,id)=>{
+  const response=await api.post(`/user/update/${id}`,updateUser);
+  return response.data;
+}
+
  

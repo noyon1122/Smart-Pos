@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
-import { getUserById, plazasApi, rolesApi } from '../../services/api';
-import { useParams } from 'react-router-dom';
+import { getUserById, plazasApi, rolesApi, updateUser } from '../../services/api';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const UpdateUser = () => {
     const { register, handleSubmit, reset } = useForm();
@@ -9,22 +9,46 @@ const UpdateUser = () => {
     const [plazas, setPlazas] = useState([]);
     const [singleUser, setSingleUser] = useState(null)
     const { id } = useParams();
+    const navigate=useNavigate()
 
     console.log("roles : ", roles)
     console.log("existing user : ", singleUser)
 
-    useEffect(() => {
-        if (!singleUser || roles.length === 0) return;
+  useEffect(() => {
+    if (!singleUser || roles.length === 0) return;
 
-        reset({
-            fullName: singleUser.fullName ?? "",
-            email: singleUser.email ?? "",
-            mobile: singleUser.mobile ?? "",
-            username: singleUser.username ?? "",
-            plaza: singleUser.plazas?.id ?? "",
-            roles: singleUser.roles?.map(r => String(r.id)) ?? [],
-        });
-    }, [singleUser, roles, reset]);
+    const roleIds = singleUser.userRoles
+        ?.map(ur => {
+            // 1. Check if the Role ID is nested (Standard fetch)
+            if (ur.role?.id) return String(ur.role.id);
+            
+            // 2. Check if the user object has a flat 'authorities' list (Common in Spring Security)
+            // If userRoles is just join-table IDs, we might need to look at 'authorities'
+            return null;
+        })
+        .filter(Boolean) ?? [];
+
+    // If the map above failed because userRoles only contains join-table IDs, 
+    // we search the master 'roles' list for matching authorities
+    let finalRoleIds = roleIds;
+    if (finalRoleIds.length === 0 && singleUser.authorities) {
+        const authNames = singleUser.authorities.map(a => a.authority);
+        finalRoleIds = roles
+            .filter(r => authNames.includes(r.authority))
+            .map(r => String(r.id));
+    }
+
+    const plazaId = singleUser.plazas?.id ? String(singleUser.plazas.id) : "";
+
+    reset({
+        fullName: singleUser.fullName || "",
+        username: singleUser.username || "",
+        email: singleUser.email || "",
+        mobile: singleUser.mobile || "",
+        plaza: plazaId, 
+        roles: finalRoleIds, // This now uses the actual Role IDs
+    });
+}, [singleUser, roles, reset]);
 
 
     // Fetch all role
@@ -91,12 +115,12 @@ const UpdateUser = () => {
 
         console.log("Final Payload:", payload);
         try {
-            await createUser(payload);
-            alert("User created successfully!");
-            reset();
+            await updateUser(payload,id);
+            alert("User data updated successfully!");
+            navigate("/user/list")
         } catch (error) {
-            console.error("Error creating user:", error);
-            alert("Failed to create user.");
+            console.error("Error updating user:", error);
+            alert("Failed to update user.");
         }
     };
 
@@ -105,7 +129,7 @@ const UpdateUser = () => {
             <div className="max-w-lg mx-auto mt-10 p-4">
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
 
-                    {/* Title */}
+                    {/* Fullname */}
                     <div className="flex items-center gap-3">
                         <label className="w-32 text-right text-sm">Full Name</label>
                         <input
@@ -115,7 +139,7 @@ const UpdateUser = () => {
                         />
                     </div>
 
-                    {/* Description */}
+                    {/* Username */}
                     <div className="flex items-center gap-3">
                         <label className="w-32 text-right text-sm">Username</label>
                         <input
@@ -125,18 +149,23 @@ const UpdateUser = () => {
                         />
                     </div>
 
-                    {/* URL Path */}
+                    {/* Password */}
                     <div className="flex items-center gap-3">
-                        <label className="w-32 text-right text-sm">password</label>
+                        <label className="w-32 text-right text-sm">Password</label>
+                        <span className='font-semibold'>******</span>
+                    </div>
+                    {/* New Password */}
+                    <div className="flex items-center gap-3">
+                        <label className="w-32 text-right text-sm">New Password</label>
                         <input
                             type="text"
-                            {...register("password", { required: true })}
+                            {...register("password", { required: false })}
                             className="flex-1 border px-3 py-[3px] rounded"
                             placeholder=""
                         />
                     </div>
 
-                    {/* Menu Class */}
+                    {/* Email */}
                     <div className="flex items-center gap-3">
                         <label className="w-32 text-right text-sm">Email</label>
                         <input
@@ -146,7 +175,7 @@ const UpdateUser = () => {
                         />
                     </div>
 
-                    {/* Menu Type */}
+                    {/* Mobile */}
                     <div className="flex items-center gap-3">
                         <label className="w-32 text-right text-sm">Mobile No</label>
                         <input
@@ -157,7 +186,7 @@ const UpdateUser = () => {
                         />
                     </div>
 
-                    {/* Parent Menu */}
+                    {/* Plaza */}
                     <div className="flex items-center gap-3">
                         <label className="w-32 text-right text-sm">Plaza</label>
                         <select
@@ -166,32 +195,30 @@ const UpdateUser = () => {
                         >
                             <option value="">Select Plaza</option>
                             {plazas.map((p) => (
-                                <option key={p.id} value={p.id}>
+                                <option key={p.id} value={String(p.id)}> {/* Force String */}
                                     {p.name}
                                 </option>
                             ))}
                         </select>
                     </div>
 
-
-                    {/* Parent Menu */}
                     {/* Roles as checkboxes */}
-<div className="flex items-start gap-3">
-    <label className="w-32 text-right text-sm pt-1">Roles</label>
-    <div className="border rounded p-2 flex-1 h-28 overflow-y-auto bg-white shadow-sm">
-        {roles.map((r) => (
-            <label key={r.id} className="flex items-center gap-2">
-                <input
-                    type="checkbox"
-                    value={String(r.id)} // Use id as value
-                    {...register("roles")} // RHF will manage array automatically
-                    defaultChecked={singleUser?.roles?.some(role => role.id === r.id)} // Pre-check existing roles
-                />
-                <span className="text-sm">{r.authority}</span>
-            </label>
-        ))}
-    </div>
-</div>
+                    <div className="flex items-start gap-3">
+                        <label className="w-32 text-right text-sm pt-1">Roles</label>
+                        <div className="border rounded p-2 flex-1 h-28 overflow-y-auto bg-white shadow-sm">
+                            {roles.map((r) => (
+                                <label key={r.id} className="flex items-center gap-2">
+                                    <input
+                                        type="checkbox"
+                                        value={String(r.id)} // Force String
+                                        {...register("roles")}
+                                    />
+                                    <span className="text-sm">{r.authority}</span>
+                                </label>
+                            ))}
+
+                        </div>
+                    </div>
 
 
                     <div className="text-start">
