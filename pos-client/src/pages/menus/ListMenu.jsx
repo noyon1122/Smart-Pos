@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import {  menusApi } from "../../services/api";
 import { useNavigate } from "react-router-dom";
-
+import view from '../../../public/images/view.png'
+import edit from '../../../public/images/edit.png'
 const ListMenu = () => {
   const [menus, setMenus] = useState([]);
   const navigate = useNavigate();
@@ -64,8 +65,8 @@ const ListMenu = () => {
                       onClick={() => navigate(`/menu/show/${menu.id}`)}
                     >
                       <img
-                        src="/icons/show.png"
-                        alt="Edit"
+                        src={view}
+                        alt="View"
                         className="w-5 h-5"
                       />
                     </button>
@@ -76,8 +77,8 @@ const ListMenu = () => {
                       onClick={() => navigate(`/menu/update/${menu.id}`)}
                     >
                       <img
-                        src="/icons/edit.png"
-                        alt="View"
+                        src={edit}
+                        alt="Edit"
                         className="w-5 h-5"
                       />
                     </button>

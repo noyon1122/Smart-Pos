@@ -1,29 +1,39 @@
 import React, { useEffect, useState } from 'react'
 import { getMenuById, hiMenusApi, updateMenu } from '../../services/api';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
 const UpdateMenu = () => {
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset,setValue } = useForm();
   const [parentMenus, setParentMenus] = useState([]);
   const [sigleMenu, setSigleMenu] = useState(null);
+  const navigate=useNavigate();
   const { id } = useParams();
 
-  useEffect(() => {
-    if (sigleMenu && parentMenus.length > 0) {
-      reset({
-        title: sigleMenu.title || "",
-        description: sigleMenu.description || "",
-        urlPath: sigleMenu.urlPath || "",
-        menuType: sigleMenu.menuType || "MAIN_MENU",
-        sortOrder: sigleMenu.sortOrder || 0,
-        parentMenu: sigleMenu.parentMenu?.id?.toString() || "", // <-- string
-        isExternal: !!sigleMenu.isExternal,
-        isOpenNewTab: !!sigleMenu.isOpenNewTab,
-        isActive: !!sigleMenu.isActive,
-      });
-    }
-  }, [sigleMenu, parentMenus, reset]);
+useEffect(() => {
+  if (!sigleMenu || parentMenus.length === 0) return;
+
+  reset({
+    title: sigleMenu.title || "",
+    description: sigleMenu.description || "",
+    urlPath: sigleMenu.urlPath || "",
+    menuType: sigleMenu.menuType || "MAIN_MENU",
+    sortOrder: sigleMenu.sortOrder || 0,
+    isExternal: !!sigleMenu.isExternal,
+    isOpenNewTab: !!sigleMenu.isOpenNewTab,
+    isActive: !!sigleMenu.isActive,
+  });
+
+  // 🔥 IMPORTANT PART
+  setValue(
+    "parentMenu",
+    sigleMenu.parentMenu?.id
+      ? sigleMenu.parentMenu.id.toString()
+      : ""
+  );
+
+}, [sigleMenu, parentMenus, reset, setValue]);
+
 
 
 
@@ -88,6 +98,7 @@ const UpdateMenu = () => {
       await updateMenu(id, payload);
       alert("Menu updated successfully!");
       reset();
+      navigate("/menu/list")
     } catch (error) {
       console.error("Error updating menu:", error);
       alert("Failed to update menu.");
