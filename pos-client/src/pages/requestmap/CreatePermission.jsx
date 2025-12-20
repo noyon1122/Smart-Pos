@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
-import { createPermission, rolesApi } from '../../services/api';
+import { createRequestmap, rolesApi } from '../../services/api';
+import { useNavigate } from 'react-router-dom';
 
 const CreatePermission = () => {
   const { register, handleSubmit, reset } = useForm();
   const [roles, setRoles] = useState([]);
+  const navigate=useNavigate();
 
 
   // Fetch all role
@@ -40,9 +42,11 @@ const CreatePermission = () => {
     console.log("Final Payload:", payload);
 
     try {
-      await createPermission(payload);
+      await createRequestmap(payload);
       alert("Url permission successfully!");
       reset();
+      navigate('/requestmap/list')
+
     } catch (error) {
       console.error("Error creating permission:", error);
       alert("Failed to create permission.");

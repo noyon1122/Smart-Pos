@@ -46,7 +46,7 @@ export const Navbar = () => {
         </div>
         <div className="text-right">
           <p className="font-bold text-sm">Welcome!</p>
-          <p className="text-xs font-medium">{user?.fullName || "Guest"}</p>
+          <p className="text-xs font-medium">{user?.fullName}</p>
           <p className='text-green-600 font-medium text-lg'> POS-এর যেকোনো সাপোর্টের জন্য 01678-028193 নম্বরে কল করুন।</p>
           <div className="text-blue-600 text-sm">
             <span className="cursor-pointer text-xs font-bold mr-2">Change Password</span>|

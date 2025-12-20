@@ -12,32 +12,38 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem('token', token);
   };
 
-  const myAuth = async () => {
-    try {
-      const me = await getMyMenu();
-      setUser(me);
-      localStorage.setItem("user", JSON.stringify(me));
-    } catch (e) {
-      setUser(null);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      myAuth();
-    } else {
-      setLoading(false);
-    }
-  }, []);
-
-  const logout = () => {
+    const logout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     setUser(null);
   };
+
+
+  const myAuth = async () => {
+    try {
+    const me = await getMyMenu();
+    setUser(me);
+    localStorage.setItem("user", JSON.stringify(me));
+  } catch (e) {
+    logout(); // ⬅️ THIS IS CRITICAL
+  } finally {
+    setLoading(false);
+  }
+  };
+
+ /* ---------------- INIT AUTH ---------------- */
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      setUser(null);
+      setLoading(false);
+      return;
+    }
+
+    myAuth();
+  }, []);
+
 
   return (
     <AuthContext.Provider

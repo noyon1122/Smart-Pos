@@ -1,14 +1,13 @@
 package com.noyon.controller.acl;
-
 import java.util.List;
-
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.noyon.entity.acl.RequestMap;
 import com.noyon.service.acl.IRequestMapService;
 @RestController
@@ -33,5 +32,27 @@ public class RequestMapController {
 	{
 		List<RequestMap> allrequestmap=requestMapService.getAllRequestMaps();
 		return ResponseEntity.ok(allrequestmap);
+	}
+	
+	@GetMapping("requestmap/{id}")
+	public ResponseEntity<RequestMap> getRequestMapById(@PathVariable Long id)
+	{
+		try {
+			RequestMap existingRequestMap=requestMapService.getRequestMapById(id);
+			return ResponseEntity.ok(existingRequestMap);
+		} catch (Exception e) {
+			// TODO: handle exception
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		}
+	}
+	@PostMapping("requestmap/update/{id}")
+	public ResponseEntity<RequestMap> updateRequestmap(@RequestBody RequestMap requestMap, @PathVariable Long id){
+		try {
+			RequestMap updateRequestMap=requestMapService.updateRequestMap(requestMap, id);
+			return ResponseEntity.ok(updateRequestMap);
+		} catch (Exception e) {
+			// TODO: handle exception
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		}
 	}
 }

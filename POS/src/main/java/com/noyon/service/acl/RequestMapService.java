@@ -69,7 +69,47 @@ public class RequestMapService implements IRequestMapService{
 		// TODO Auto-generated method stub
 		return requestMapRepository.findAll();
 	}
-	
-	
-	
+
+	@Override
+	public RequestMap getRequestMapById(Long id) {
+		// TODO Auto-generated method stub
+		RequestMap requestMap=null;
+		try {
+			RequestMap existingRequestMap=requestMapRepository.findById(id).orElseThrow(()-> new CustomException("Requestmap not found with this id : "+id) );
+			requestMap=existingRequestMap;
+		} catch (CustomException e) {
+			// TODO: handle exception
+			log.error("CustomException occurred: {}", e.getMessage(), e);
+		}catch (Exception e) {
+			// TODO: handle exception
+			log.error("Unexpected error occurred: {}", e.getMessage(), e);
+		}
+		return requestMap;
+	}
+
+	@Override
+	public RequestMap updateRequestMap(RequestMap requestMap, Long id) {
+		// TODO Auto-generated method stub
+		RequestMap savedRequestMap=null;
+		try {
+			    RequestMap existingMap=requestMapRepository.findById(id).orElseThrow(()-> new CustomException("Url not found for this id: "+id));
+				Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	            User adminUser = (User) auth.getPrincipal();
+	            existingMap.setUrl(requestMap.getUrl());
+	            existingMap.setConfigAttribute(requestMap.getConfigAttribute());
+	            existingMap.setModified(LocalDateTime.now());
+	            existingMap.setModifiedBy(adminUser.getUsername());
+	            savedRequestMap=requestMapRepository.save(existingMap);
+			
+		}catch (CustomException e) {
+			// TODO: handle exception
+			log.error("CustomException occurred: {}", e.getMessage(), e);
+			
+		}catch (Exception e) {
+			// TODO: handle exception
+			log.error("Unexpected error: {}", e.getMessage(), e);
+		}
+		return savedRequestMap;
+	}
+
 }

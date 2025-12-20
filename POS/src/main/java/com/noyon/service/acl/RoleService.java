@@ -53,4 +53,55 @@ public class RoleService implements IRoleService {
 		return roleRepository.findAll();
 	}
 
+
+	@Override
+	public Role getRoleById(Long id) {
+		// TODO Auto-generated method stub
+		
+		Role role=null;
+		try {
+			
+			Role existingRole=roleRepository.findById(id).orElseThrow(()-> new CustomException("Role not found for this id : "+id));
+			role=existingRole;
+		   
+		}catch (CustomException e) {
+			// TODO: handle exception
+			log.error("CustomException occurred: {}", e.getMessage(), e);
+			
+		}catch (Exception e) {
+			// TODO: handle exception
+			log.error("Unexpected error: {}", e.getMessage(), e);
+		}
+		return role;
+	}
+
+
+	@Override
+	public Role updateRole(Role role, Long id) {
+		// TODO Auto-generated method stub
+		
+		Role updateRole=null;
+		try {
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            User adminUser = (User) auth.getPrincipal();
+			Role existingRole=roleRepository.findById(id).orElseThrow(()-> new CustomException("Role not found for this id : "+id));
+			
+			 existingRole.setAuthority(role.getAuthority());
+			 existingRole.setDescription(role.getDescription());
+			 existingRole.setModified(LocalDateTime.now());
+			 existingRole.setModifiedBy(adminUser.getUsername());
+		     updateRole=roleRepository.save(existingRole);
+		}catch (CustomException e) {
+			// TODO: handle exception
+			log.error("CustomException occurred: {}", e.getMessage(), e);
+			
+		}catch (Exception e) {
+			// TODO: handle exception
+			log.error("Unexpected error: {}", e.getMessage(), e);
+		}
+		return updateRole;
+	}
+	
+	
+
 }

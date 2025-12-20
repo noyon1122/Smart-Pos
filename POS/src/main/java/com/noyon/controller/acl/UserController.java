@@ -38,7 +38,7 @@ public class UserController {
 		List<User> userList=userService.getAllUser();
 		return ResponseEntity.ok(userList);
 	}
-	@GetMapping("user/update/{id}")
+	@GetMapping("user/{id}")
 	public ResponseEntity<User> getUserById(@PathVariable Long id)
 	{
 		

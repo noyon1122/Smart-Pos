@@ -38,6 +38,7 @@ export const logout=async()=>{
   localStorage.removeItem('user')
 }
 
+// menu api
 export const menusApi=async()=>{
   const response=await api.get('/menus')
   return response.data;
@@ -48,47 +49,11 @@ export const createMenu = async (menuData) => {
   return response.data;
 };
 
-export const createRole =async (roleData) =>{
-  const response =await api.post("/role/create",roleData);
-  return response.data;
-}
-
-export const rolesApi=async()=>{
-  const response= await api.get("/roles");
-  return response.data;
-}
-
-export const createUser=async(userData) =>{
-  const response =await api.post("/user/create",userData)
-  return response.data;
-}
-
 export const getMyMenu=async()=>{
   const response=await api.get("/auth/me");
   console.log(response.data)
   return response.data;
 }
-
-export const plazasApi=async()=>{
-  const response =await api.get("/plazas")
-  return response.data;
-}
-
-export const createPermission=async(permissionData)=>{
-  const response =await api.post("/requestmap/create",permissionData)
-  return response.data;
-}
-
-export const usersApi= async ()=>{
-  const response=await api.get("/users");
-  return response.data;
-}
-
-export const requestmapsApi=async ()=>{
-  const response =await api.get("/requestmaps");
-  return response.data;
-}
-
 export const getMenuById = async (id) => {
   const response = await api.get(`/menu/update/${id}`);
   return response.data;
@@ -104,8 +69,28 @@ export const hiMenusApi =async ()=>{
   return response.data;
 }
 
+//role api
+export const rolesApi=async()=>{
+  const response= await api.get("/roles");
+  return response.data;
+}
+
+export const createRole =async (roleData) =>{
+  const response =await api.post("/role/create",roleData);
+  return response.data;
+}
+
+//user api
+export const usersApi= async ()=>{
+  const response=await api.get("/users");
+  return response.data;
+}
+export const createUser=async(userData) =>{
+  const response =await api.post("/user/create",userData)
+  return response.data;
+}
 export const getUserById =async(id)=>{
-  const response=await api.get(`user/update/${id}`);
+  const response=await api.get(`user/${id}`);
   return response.data;
 }
 
@@ -114,4 +99,27 @@ export const updateUser =async(updateUser,id)=>{
   return response.data;
 }
 
+// Request map api
+export const requestmapsApi=async ()=>{
+  const response =await api.get("/requestmaps");
+  return response.data;
+}
+export const getRequestmapById=async(id)=>{
+  const response=await api.get(`/requestmap/${id}`)
+  return response.data;
+}
+export const createRequestmap=async(permissionData)=>{
+  const response =await api.post("/requestmap/create",permissionData)
+  return response.data;
+}
+export const updateRequestmap=async(permissionData,id)=>{
+  const response =await api.post(`/requestmap/update/${id}`,permissionData);
+  return response.data;
+}
+
+//plaza api
+export const plazasApi=async()=>{
+  const response =await api.get("/plazas")
+  return response.data;
+}
  
