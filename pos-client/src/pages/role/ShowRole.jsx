@@ -1,27 +1,27 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
-import { getRequestmapById } from '../../services/api';
+import { getRoleById } from '../../services/api';
 import { format } from 'date-fns';
 
-const ShowPermission = () => {
-  const { id } = useParams();
+const ShowRole = () => {
+ const { id } = useParams();
   const navigate = useNavigate();
-  const [requestmap, setRequestmap] = useState(null);
+  const [role, setRole] = useState(null);
 
   useEffect(() => {
-    const fetchRequestmap = async () => {
+    const fetchRole = async () => {
       try {
-        const res = await getRequestmapById(id);
-        setRequestmap(res);
+        const res = await getRoleById(id);
+        setRole(res);
       } catch (error) {
-        console.error("Failed to load requestmap:", error);
+        console.error("Failed to load menu:", error);
       }
     };
 
-    fetchRequestmap();
+    fetchRole();
   }, [id]);
 
-  if (!requestmap) return <div className="text-center mt-10">Loading...</div>;
+  if (!role) return <div className="text-center mt-10">Loading...</div>;
 
   const Row = ({ label, value }) => (
     <div className="grid grid-cols-3 gap-4 py-1 text-sm">
@@ -34,24 +34,24 @@ const ShowPermission = () => {
     <div className="mx-40 my-8 bg-white shadow-md rounded p-6">
       <div className="max-w-3xl mx-auto">
 
-        <Row label="Url" value={requestmap.url} />
-        <Row label="Config Attribute" value={requestmap.configAttribute} />
-        <Row label="Created" value={format(new Date(requestmap.created), 'dd-MM-yyyy HH:mm')} />  
-        <Row label="Created By" value={requestmap.createdBy} />
+        <Row label="Authority" value={role.authority} />
+        <Row label="Description" value={role.description} />
+        <Row label="Created" value={format(new Date(role.created), 'dd-MM-yyyy HH:mm')} />  
+        <Row label="Created By" value={role.createdBy} />
 
         {/* ✅ CONDITIONAL FIELDS */}
-        {requestmap.modified && (
-          <Row label="Modified" value={format(new Date(requestmap.modified), 'dd-MM-yyyy HH:mm')} />
+        {role.modified && (
+          <Row label="Modified" value={format(new Date(role.modified), 'dd-MM-yyyy HH:mm')} />
         )}
 
-        {requestmap.modifiedBy && (
-          <Row label="Modified By" value={requestmap.modifiedBy} />
+        {role.modifiedBy && (
+          <Row label="Modified By" value={role.modifiedBy} />
         )}
 
         {/* Action Buttons */}
         <div className="flex gap-4 mt-6 ml-32">
           <button
-            onClick={() => navigate(`/requestmap/update/${requestmap.id}`)}
+            onClick={() => navigate(`/role/update/${role.id}`)}
             className="px-6 py-1 rounded text-white bg-orange-500 hover:bg-orange-600 shadow"
           >
             Edit
@@ -69,4 +69,4 @@ const ShowPermission = () => {
   );
 }
 
-export default ShowPermission
+export default ShowRole

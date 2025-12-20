@@ -202,7 +202,7 @@ useEffect(() => {
             </button>
             <button
               className="w-24 py-1.5 rounded text-white font-medium text-sm
-                bg-gradient-to-b from-red-400 to-red-700 shadow-md hover:opacity-90"
+                bg-red-600 hover:bg-red-700 shadow-md hover:opacity-90"
             >
               Delete
             </button>

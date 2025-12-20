@@ -2,6 +2,7 @@ package com.noyon.controller.acl;
 import java.net.http.HttpRequest;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.noyon.dto.MenuDto;
@@ -35,10 +37,18 @@ public class MenuController {
 	}
 	
 	@GetMapping("menus")
-	public ResponseEntity<List<Menu>> getMainMenu() {
-		List<Menu> menuList=menuService.getAllMenu();
-		return ResponseEntity.ok(menuList);
-    }
+	public ResponseEntity<Page<Menu>> getMenus(
+	        @RequestParam(defaultValue = "0") int page,
+	        @RequestParam(defaultValue = "10") int size,
+	        @RequestParam(required = false) Long parentMenu,
+	        @RequestParam(required = false) String title,
+	        @RequestParam(required = false) String urlPath
+	) {
+	    return ResponseEntity.ok(
+	        menuService.getAllMenu(page, size, parentMenu, title, urlPath)
+	    );
+	}
+
 	
 	@GetMapping("menu/update/{id}")
 	public ResponseEntity<Menu> getMenuById(@PathVariable Long id)

@@ -226,7 +226,7 @@ const UpdateUser = () => {
                             className="w-24 py-1.5 rounded text-white font-medium text-sm
                  bg-gradient-to-b from-sky-400 to-sky-700 shadow-md hover:opacity-90"
                         >
-                            Save
+                            Update
                         </button>
                     </div>
 

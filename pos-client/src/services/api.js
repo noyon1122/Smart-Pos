@@ -39,10 +39,21 @@ export const logout=async()=>{
 }
 
 // menu api
-export const menusApi=async()=>{
-  const response=await api.get('/menus')
-  return response.data;
-}
+/**
+ * Fetch menus with optional filters and pagination
+ * @param {Object} params - optional filters & pagination
+ *  { page, size, parentMenuId, title, urlPath }
+ */
+export const menusApi = async (params = {}) => {
+  try {
+    // send params as query string
+    const response = await api.get("/menus", { params });
+    return response.data; // should return { content: [], totalPages, number, ... } from backend
+  } catch (error) {
+    console.error("Error fetching menus:", error);
+    throw error;
+  }
+};
 
 export const createMenu = async (menuData) => {
   const response = await api.post("/menu/create", menuData);

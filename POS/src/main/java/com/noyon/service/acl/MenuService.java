@@ -3,6 +3,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -43,16 +49,31 @@ public class MenuService implements IMenuService {
 		return savedMenu;
 	}
 	@Override
-	public List<Menu> getAllMenu() {
-		// TODO Auto-generated method stub
-		return menuRepository.findAll();
+	public Page<Menu> getAllMenu(
+	        int page,
+	        int size,
+	        Long parentMenu,
+	        String title,
+	        String urlPath
+	) {
+
+	    Pageable pageable = PageRequest.of(
+	        page,
+	        size,
+	        Sort.by("sortOrder").ascending()
+	    );
+
+	    Specification<Menu> spec =
+	            MenuSpecification.filterMenus(parentMenu, title, urlPath);
+
+	    return menuRepository.findAll(spec, pageable);
 	}
 	@Override
 	public Menu updateMenu(Menu menu, Long id) {
 		// TODO Auto-generated method stub
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User adminUser = (User) auth.getPrincipal();
-		Menu updateMenu=new Menu();
+		Menu updateMenu=null;
 		try {
 			
 			Menu existingMenu = menuRepository.findById(id).orElseThrow(

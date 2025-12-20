@@ -18,6 +18,7 @@ import ShowUser from "../pages/users/ShowUser";
 import UpdateRole from "../pages/role/UpdateRole";
 import UpdatePermission from "../pages/requestmap/UpdatePermission";
 import ShowPermission from "../pages/requestmap/ShowPermission";
+import ShowRole from "../pages/role/ShowRole";
 const router = createBrowserRouter([
 
     {
@@ -38,6 +39,7 @@ const router = createBrowserRouter([
                     { path: "user/list", element: <ListUser /> },
                     { path: "role/create", element: <CreateRole /> },
                     { path: "role/update/:id", element: <UpdateRole /> },
+                    { path: "role/show/:id", element: <ShowRole /> },
                     { path: "role/list", element: <ListRole /> },
                     { path: "requestmap/create", element: <CreatePermission /> },
                     { path: "requestmap/list", element: <ListPermission /> },
