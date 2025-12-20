@@ -60,10 +60,10 @@ const ListRole = () => {
                                 <td className="border p-2 text-center">
                                     <div className="flex items-center justify-center gap-3">
 
-                                        {/* Edit button */}
+                                        {/* view button */}
                                         <button
                                             className="p-1 hover:opacity-80"
-                                             onClick={() => navigate(`/role/update/${role.id}`)}
+                                             onClick={() => navigate(`/role/show/${role.id}`)}
                                         >
                                             <img
                                                 src={view}
@@ -72,10 +72,10 @@ const ListRole = () => {
                                             />
                                         </button>
 
-                                        {/* View button */}
+                                        {/* Edit button */}
                                         <button
                                             className="p-1 hover:opacity-80"
-                                            onClick={() => navigate(`/role/show/${role.id}`)}
+                                            onClick={() => navigate(`/role/update/${role.id}`)}
                                         >
                                             <img
                                                 src={edit}

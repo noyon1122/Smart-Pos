@@ -80,6 +80,16 @@ export const createRole =async (roleData) =>{
   return response.data;
 }
 
+export const getRoleById=async(id)=>{
+  const response =await api.get(`/role/${id}`);
+  return response.data;
+}
+
+export const updateRole = async(roleData,id)=>{
+  const response =await api.post(`/role/update/${id}`,roleData);
+  return response.data;
+}
+
 //user api
 export const usersApi= async ()=>{
   const response=await api.get("/users");
