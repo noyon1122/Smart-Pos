@@ -7,6 +7,11 @@ import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -105,14 +110,16 @@ public class UserService implements IUserService {
 		return response;
 	}
 
-	@Override
-	public List<User> getAllUser() {
-		// TODO Auto-generated method stub
-		
-		List<User> userList=userRepository.findAll();
-		
-		return userList;
-	}
+//	@Override
+//	public List<User> getAllUser() {
+//		// TODO Auto-generated method stub
+//		
+//		List<User> userList=userRepository.findAll();
+//		
+//		return userList;
+//	}
+	
+	
 
 	@Override
 	public User getUserById(Long id) {
@@ -130,6 +137,15 @@ public class UserService implements IUserService {
 			log.error("Unexpected error occurred: {}", e.getMessage(), e);
 		}
 		return user;
+	}
+
+	@Override
+	public Page<User> getAllUser(int page, int size, Long plazas, Long role, String username, String fullName) {
+		// TODO Auto-generated method stub
+		Pageable pageable=PageRequest.of(page, size,Sort.by("created").ascending());
+		Specification<User> spec=UserSpecification.filterUsers(plazas, role, username, fullName);
+		
+		return userRepository.findAll(spec,pageable);
 	}
 
 	@Override

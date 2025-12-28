@@ -102,9 +102,15 @@ export const updateRole = async(roleData,id)=>{
 }
 
 //user api
-export const usersApi= async ()=>{
-  const response=await api.get("/users");
-  return response.data;
+export const usersApi= async (params = {}) => {
+  try {
+    // send params as query string
+    const response = await api.get("/users", { params });
+    return response.data; // should return { content: [], totalPages, number, ... } from backend
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    throw error;
+  }
 }
 export const createUser=async(userData) =>{
   const response =await api.post("/user/create",userData)
