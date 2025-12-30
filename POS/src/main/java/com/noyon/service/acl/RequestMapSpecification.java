@@ -21,7 +21,10 @@ public class RequestMapSpecification {
 			if( configAttribute !=null) {
 				predicate=cb.and(
 						predicate,
-						cb.equal(root.get("configAttribute"), configAttribute)
+						cb.like(
+								cb.lower(root.get("configAttribute")),
+								"%"+configAttribute.toLowerCase() + "%"
+								)
 						);
 			}
 			return predicate;

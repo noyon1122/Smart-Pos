@@ -6,6 +6,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -13,18 +18,18 @@ import com.noyon.entity.acl.RequestMap;
 import com.noyon.entity.acl.User;
 import com.noyon.exception.CustomException;
 import com.noyon.repository.acl.RequestMapRepository;
-import com.noyon.repository.acl.UserRoleRepository;
+
 @Service
 public class RequestMapService implements IRequestMapService{
 
-    private final UserRoleRepository userRoleRepository;
+    
 	private final RequestMapRepository requestMapRepository;
 	private static final Logger log = LoggerFactory.getLogger(RequestMapService.class);
 
-	public RequestMapService(RequestMapRepository requestMapRepository, UserRoleRepository userRoleRepository) {
+	public RequestMapService(RequestMapRepository requestMapRepository) {
 		super();
 		this.requestMapRepository = requestMapRepository;
-		this.userRoleRepository = userRoleRepository;
+	
 	}
 
 	@Override
@@ -64,10 +69,14 @@ public class RequestMapService implements IRequestMapService{
                 .collect(Collectors.toList());
     }
 
+
 	@Override
-	public List<RequestMap> getAllRequestMaps() {
+	public Page<RequestMap> getAllRequestmap(int page, int size, String url, String configAttribute) {
 		// TODO Auto-generated method stub
-		return requestMapRepository.findAll();
+		Pageable pageable=PageRequest.of(page, size,Sort.by("created").ascending());
+		
+		Specification<RequestMap> spec=RequestMapSpecification.filterRequestMaps(url, configAttribute);
+		return requestMapRepository.findAll(spec,pageable);
 	}
 
 	@Override
@@ -111,5 +120,7 @@ public class RequestMapService implements IRequestMapService{
 		}
 		return savedRequestMap;
 	}
+	
+	
 
 }

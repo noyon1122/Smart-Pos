@@ -1,5 +1,6 @@
 package com.noyon.controller.acl;
-import java.util.List;
+
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.noyon.entity.acl.RequestMap;
 import com.noyon.service.acl.IRequestMapService;
@@ -28,10 +30,15 @@ public class RequestMapController {
 	}
 	
 	@GetMapping("requestmaps")
-	public ResponseEntity<List<RequestMap>> getAllRequestMap()
+	public ResponseEntity<Page<RequestMap>> getAllRequestMap(
+			@RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "10") int size,
+			@RequestParam (required = false) String url,
+			@RequestParam (required = false) String configAttribute
+			)
 	{
-		List<RequestMap> allrequestmap=requestMapService.getAllRequestMaps();
-		return ResponseEntity.ok(allrequestmap);
+		
+		return ResponseEntity.ok(requestMapService.getAllRequestmap(page, size, url, configAttribute));
 	}
 	
 	@GetMapping("requestmap/{id}")
